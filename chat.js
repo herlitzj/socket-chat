@@ -47,7 +47,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/chat', function(req, res) {
-    res.render('layouts/chat_template');
+    res.render('chat');
 });
 
 app.use(redirectUnmatched);

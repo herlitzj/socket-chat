@@ -29,8 +29,18 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 app.get('/', function(req, res) {
-    res.sendFile('/index.html');
+    res.render('layouts/landing')
 });
+
+app.get('/chat', function(req, res) {
+    res.render('layouts/chat_template');
+});
+
+app.use(redirectUnmatched);
+
+function redirectUnmatched(req, res) {
+  res.redirect("/");
+}
 
 io.on('connection', function(socket) {
     console.log("A user has connected.");

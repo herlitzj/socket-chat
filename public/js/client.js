@@ -1,11 +1,9 @@
 
+
+
 $(function() {
-    var source = $("#chat_template").html();
-    console.log($("#chat_template").val());
-    var template = Handlebars.compile(source);
     var socket = io();
     $('#send_msg').click(function() {
-        console.log("button clicked");
         socket.emit('chat message', $('#msg_text').val());
         $('#msg_text').val('');
         return false;
@@ -16,7 +14,6 @@ $(function() {
         }
     });
     socket.on('chat message', function(data) {
-        console.log(data);
-        $('#chat_history').append($(template(data)));
+        $('#chat_history').append(data.html );
     });
 });

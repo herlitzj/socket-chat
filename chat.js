@@ -1,4 +1,5 @@
 var express = require('express');
+var routes = require('./routes/routes');
 
 var app = express();
 var handlebars = require('express-handlebars').create({
@@ -42,16 +43,9 @@ app.use(express.static(__dirname));
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-app.get('/', function(req, res) {
-    res.render('layouts/landing')
-});
-
-app.get('/chat', function(req, res) {
-    res.render('chat');
-});
-
-app.use(redirectUnmatched);
-
+// Load routes
+app.use('/', routes)
+app.use(redirectUnmatched); // handle all unhandled routes
 function redirectUnmatched(req, res) {
   res.redirect("/");
 }

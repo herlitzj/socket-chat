@@ -10,7 +10,7 @@
         <![endif]-->
         <title>BOOTSTRAP CHAT EXAMPLE</title>
         <!-- BOOTSTRAP CORE STYLE CSS -->
-        <link href="public/css/bootstrap.css" rel="stylesheet" />
+        <!-- <link href="public/css/bootstrap.css" rel="stylesheet" /> -->
     </head>
     <body style="font-family:Verdana">
         <div class="container">
@@ -63,23 +63,6 @@
             </div>
         </div>
         <script src="http://cloud.github.com/downloads/wycats/handlebars.js/handlebars-1.0.0.beta.6.js" type="text/javascript" charset="utf-8"></script>
-        <script id="chat_template" type="text/x-handlebars-template">
-        <li class="media">
-            <div class="media-body">
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object img-circle " src="public/img/user.png" />
-                    </a>
-                    <div class="media-body">
-                        {{msg}}
-                        <br />
-                        <small class="text-muted">{{username}} | {{time}}</small>
-                        <hr />
-                    </div>
-                </div>
-            </div>
-        </li>
-        </script>
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="js/client.js"></script>

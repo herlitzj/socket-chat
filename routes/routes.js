@@ -50,7 +50,7 @@ router.post('/users/login', function(req, res) {
             console.log(err);
         } else {
             if (result) {
-                res.redirect("/users/" + result[0].id);
+                res.redirect("/users/" + result);
             } else {
                 res.redirect("/login");
             }

@@ -1,4 +1,5 @@
 var express = require('express');
+var routes = require('./routes/routes');
 
 var app = express();
 var handlebars = require('express-handlebars').create({
@@ -8,7 +9,6 @@ var handlebars = require('express-handlebars').create({
 var bodyParser = require('body-parser');
 var request = require('request');
 var fs = require('fs');
-var mysql = require('mysql');
 var session = require('client-sessions');
 
 app.use(session({
@@ -17,13 +17,6 @@ app.use(session({
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
 }));
-
-var mysql_connection = mysql.createConnection({
-    host: 'cs361.cdm64kabqtwv.us-west-2.rds.amazonaws.com',
-    user: 'wcamiller',
-    password: 'cs361projectb',
-    database: 'eridanus'
-})
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -35,20 +28,19 @@ var path = require('path');
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 3007);
+app.set('port', (process.env.PORT || 3007));
 app.use(express.static('public'));
 app.use(express.static(__dirname));
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-app.get('/', function(req, res) {
-    res.render('login');
-});
-
-app.get('/chat', function(req, res) {
-    res.render('chat');
-});
+// Load routes
+app.use('/', routes)
+app.use(redirectUnmatched); // handle all unhandled routes
+function redirectUnmatched(req, res) {
+  res.redirect("/");
+}
 
 io.on('connection', function(socket) {
     console.log("A user has connected.");

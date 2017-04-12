@@ -1,6 +1,3 @@
-
-
-
 $(function() {
     var socket = io();
     $('#send_msg').click(function() {

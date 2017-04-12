@@ -9,7 +9,6 @@ var handlebars = require('express-handlebars').create({
 var bodyParser = require('body-parser');
 var request = require('request');
 var fs = require('fs');
-var mysql = require('mysql');
 var session = require('client-sessions');
 
 app.use(session({
@@ -18,13 +17,6 @@ app.use(session({
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
 }));
-
-var mysql_connection = mysql.createConnection({
-    host: 'cs361.cdm64kabqtwv.us-west-2.rds.amazonaws.com',
-    user: 'wcamiller',
-    password: 'cs361projectb',
-    database: 'eridanus'
-})
 
 app.use(bodyParser.urlencoded({
     extended: false

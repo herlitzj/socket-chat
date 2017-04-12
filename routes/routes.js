@@ -23,16 +23,45 @@ router.get('/login', function(req, res) {
 /*********************
 // User Routes
 /*********************/
+
 router.get('/users/:id', function(req, res) {
-	return user.get(req.id);
+	var callback = (err, result) => {
+		if(err) {
+			res.sendStatus(err.code);
+			console.log(err);
+		} else {
+			res.sendStatus(200);
+			console.log(result);
+		}
+	}
+	return user.get(req.params.id, callback);
 })
 
 router.post('/users/register', function(req, res) {
-	return user.create(req.body)
+	var callback = (err, result) => {
+		if(err) {
+			res.sendStatus(err.code);
+			console.log(err);
+		} else {
+			res.sendStatus(200);
+			console.log(result);
+		}
+	}
+	return user.create(req.body, callback)
 })
 
 router.put('/users/:id', function(req, res) {
-	return user.update(req.body)
+	var callback = (err, result) => {
+		if(err) {
+			res.sendStatus(err.code);
+			console.log(err);
+		} else {
+			res.sendStatus(200);
+			console.log(result);
+		}
+	}
+	req.body.id = req.params.id;
+	return user.update(req.body, callback)
 })
 
 module.exports = router;

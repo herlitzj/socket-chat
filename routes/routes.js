@@ -3,6 +3,8 @@ var router = express.Router();
 
 // Load models
 var User = require('../models/user');
+var Session = require('../models/session');
+var session = new Session;
 var user = new User;
 
 /*********************
@@ -25,43 +27,63 @@ router.get('/login', function(req, res) {
 /*********************/
 
 router.get('/users/:id', function(req, res) {
-	var callback = (err, result) => {
-		if(err) {
-			res.sendStatus(err.code);
-			console.log(err);
-		} else {
-			res.render('layouts/user_profile', result[0]);
-			console.log(result);
-		}
-	}
-	return user.get(req.params.id, callback);
-})
+    var callback = (err, result) => {
+        if (err) {
+            res.sendStatus(err.code);
+            console.log(err);
+        } else {
+            if (result) {
+                res.render('layouts/user_profile', result[0]);
+                console.log(result);
+            } else {
+            	res.redirect("/login");
+            }
+        }
+    }
+    return user.get(req.params.id, req.session, callback);
+});
+
+router.post('/users/login', function(req, res) {
+    var callback = (err, result) => {
+        if (err) {
+            res.sendStatus(err.code);
+            console.log(err);
+        } else {
+            if (result) {
+                res.redirect("/users/" + result[0].id);
+            } else {
+                res.redirect("/login");
+            }
+        }
+    }
+    return session.login(req.body.username, req.body.password, req.session, callback);
+});
 
 router.post('/users/register', function(req, res) {
-	var callback = (err, result) => {
-		if(err) {
-			res.sendStatus(err.code);
-			console.log(err);
-		} else {
-			res.redirect("/users/" + result.insertId);
-			console.log(result);
-		}
-	}
-	return user.create(req.body, callback)
-})
+    var callback = (err, result) => {
+        if (err) {
+            res.sendStatus(err.code);
+            console.log(err);
+        } else {
+            res.redirect("/users/" + result.insertId);
+            console.log(result);
+        }
+    }
+    return user.create(req.body, callback)
+});
 
 router.put('/users/:id', function(req, res) {
-	var callback = (err, result) => {
-		if(err) {
-			res.sendStatus(err.code);
-			console.log(err);
-		} else {
-			res.sendStatus(200);
-			console.log(result);
-		}
-	}
-	req.body.id = req.params.id;
-	return user.update(req.body, callback)
-})
+    var callback = (err, result) => {
+        if (err) {
+            res.sendStatus(err.code);
+            console.log(err);
+        } else {
+            res.sendStatus(200);
+            console.log(result);
+        }
+    }
+    req.body.id = req.params.id;
+    return user.update(req.body, callback)
+});
 
 module.exports = router;

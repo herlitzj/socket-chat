@@ -30,7 +30,7 @@ router.get('/users/:id', function(req, res) {
 			res.sendStatus(err.code);
 			console.log(err);
 		} else {
-			res.sendStatus(200);
+			res.render('layouts/user_profile', result[0]);
 			console.log(result);
 		}
 	}
@@ -43,7 +43,7 @@ router.post('/users/register', function(req, res) {
 			res.sendStatus(err.code);
 			console.log(err);
 		} else {
-			res.sendStatus(200);
+			res.redirect("/users/" + result.insertId);
 			console.log(result);
 		}
 	}

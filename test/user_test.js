@@ -40,54 +40,51 @@ describe('User', function() {
 			cleanup(done);
 		});
 
-		describe('#get()', function() {
-			it('should get the user and user info', function(done) {
-				var mock_session = {user: test_id};
-				var callback =  (err, result) => {
+
+		it('should get the user and user info', function(done) {
+			var mock_session = {user: test_id};
+			var callback =  (err, result) => {
+		        if (err) {
+		            console.log(err);
+		        } else {
+		            assert.equal(result[0].first_name, test_values[1]);
+		            assert.equal(result[0].last_name, test_values[2]);
+		            assert.equal(result[0].email, test_values[3]);
+		            assert.equal(result[0].username, test_values[4]);
+		            done()
+		        }
+		    }
+			user.get(test_id, mock_session, callback);
+		});
+
+		it('should properly update the user info', function(done) {
+			var mock_session = {user: test_id};
+			var update_values = {
+				first_name: "updated",
+				last_name: "person",
+				username: "update_user",
+				email: "updated@test.com",
+				id: test_id
+			}
+			var get_user = (error, result) => {
+				var get_callback =  (err, res) => {
 			        if (err) {
 			            console.log(err);
 			        } else {
-			            assert.equal(result[0].first_name, test_values[1]);
-			            assert.equal(result[0].last_name, test_values[2]);
-			            assert.equal(result[0].email, test_values[3]);
-			            assert.equal(result[0].username, test_values[4]);
+			            assert.equal(res[0].first_name, update_values.first_name);
+			            assert.equal(res[0].last_name, update_values.last_name);
+			            assert.equal(res[0].email, update_values.email);
+			            assert.equal(res[0].username, update_values.username);
 			            done()
 			        }
 			    }
-				user.get(test_id, mock_session, callback);
-			});
-	    });
 
-	    describe('#update()', function() {
-			it('should properly update the user info', function(done) {
-				var mock_session = {user: test_id};
-				var update_values = {
-					first_name: "updated",
-					last_name: "person",
-					username: "update_user",
-					email: "updated@test.com",
-					id: test_id
-				}
-				var get_user = (error, result) => {
-					var get_callback =  (err, res) => {
-				        if (err) {
-				            console.log(err);
-				        } else {
-				            assert.equal(res[0].first_name, update_values.first_name);
-				            assert.equal(res[0].last_name, update_values.last_name);
-				            assert.equal(res[0].email, update_values.email);
-				            assert.equal(res[0].username, update_values.username);
-				            done()
-				        }
-				    }
+			    if(error) console.log(error)
+				else user.get(test_id, mock_session, get_callback);
+			}
 
-				    if(error) console.log(error)
-					else user.get(test_id, mock_session, get_callback);
-				}
-
-				user.update(update_values, get_user)
-			});
-	    });
+			user.update(update_values, get_user)
+		});
 	  
 	});
 

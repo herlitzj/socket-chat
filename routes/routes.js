@@ -15,12 +15,13 @@ router.get('/', function(req, res) {
 });
 
 router.get('/chat', function(req, res) {
-	if(! req.session.user) res.redirect('login');
+	if(!req.session.user) res.redirect('login');
     else res.render('chat');
 });
 
 router.get('/login', function(req, res) {
-    res.render('login');
+	if(req.session && req.session.user) res.redirect('/users/' + req.session.user);
+    else res.render('login');
 });
 
 router.get('/logout', function(req, res) {

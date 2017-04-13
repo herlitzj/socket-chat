@@ -22,6 +22,13 @@ router.get('/login', function(req, res) {
     res.render('login');
 });
 
+router.get('/logout', function(req, res) {
+	if (req.session && req.session.user) {
+		req.session.user = null;
+	}
+	res.redirect("/users/login");
+})
+
 /*********************
 // User Routes
 /*********************/
@@ -40,6 +47,7 @@ router.get('/users/:id', function(req, res) {
             }
         }
     }
+    console.log("SESSION: ", req.session)
     return user.get(req.params.id, req.session, callback);
 });
 
@@ -49,15 +57,21 @@ router.post('/users/login', function(req, res) {
             res.sendStatus(err.code);
             console.log(err);
         } else {
-            if (result) {
-                res.redirect("/users/" + result);
+            if (result.validated) {
+                res.redirect("/users/" + req.session.user);
             } else {
                 res.redirect("/login");
             }
         }
     }
-    return session.login(req.body.username, req.body.password, req.session, callback);
+
+    if (req.session.user) {
+    	res.redirect("/users/" + req.session.user)
+    } else {
+    	return session.login(req.body.username, req.body.password, req.session, callback);
+    }
 });
+
 
 router.post('/users/register', function(req, res) {
     var callback = (err, result) => {
@@ -69,7 +83,7 @@ router.post('/users/register', function(req, res) {
             console.log(result);
         }
     }
-    return user.create(req.body, callback)
+    return user.create(req.body, req.session, callback)
 });
 
 router.put('/users/:id', function(req, res) {

@@ -11,35 +11,58 @@ class Session {
         var values = [username];
         var query = db.build_query(query_string, values);
 
-        db.connection.query(query, (error, results, fields) => {
-            if (error) {
-                var error = new Error(error);
-                error.code = http_codes.NOT_FOUND;
-                return callback(error);
+        var return_object = {
+            validated: false,
+            message: "Invalid Username or Password"
+        }
+
+        db.connection.query(query, (db_error, results, fields) => {
+            if (db_error) {
+                var err = new Error(db_error);
+                err.code = http_codes.INTERNAL_SERVER_ERROR;
+                return callback(err);
             }
 
             if (results.length) {
                 var db_password = results[0].hashed_pw;
                 var user_id = results[0].id;
-                hasher(password).verifyAgainst(db_password, function(error, verified) {
-                    if (error)
-                        throw error; // need to make this fail gracefully
-                    if (!verified) {
-                        console.log("Invalid password.");
-                        return callback(null, null);
+                this.validate_password(password, db_password, (val_error, is_valid) => {
+                    if(val_error) {
+                        var err = new Error(val_error);
+                        err.code = http_codes.INTERNAL_SERVER_ERROR;
+                        return callback(err);
                     } else {
-                        console.log("Valid password.");
-                        user_session.user = user_id;
-                        console.log(user_session);
-                        return callback(null, user_id);
+                        if(is_valid) {
+                            console.log("SETTING THE SESSION")
+                            user_session.user = user_id;
+                            return_object.message = "Validated";
+                            return_object.validated = is_valid;
+                        }
+                        return callback(null, return_object);
                     }
-                });
+                })
             } else {
-                console.log("Invalid username.");
-                return (callback(null, null));
+                console.log(return_object);
+                return (callback(null, return_object));
             }
         });
+    }
+    hash_password(password, callback) {
+        hasher(password).hash(function(error, hash) {
+            error ? callback(error) : callback(null, hash);
+        })
+    }
+    validate_password(password, hash, callback) {
+        hasher(password).verifyAgainst(hash, function(error, verified) {
+            error ? callback(error) : callback(null, verified);
+        })
     }
 }
 
 module.exports = Session;
+
+
+
+
+
+

@@ -23,9 +23,7 @@ router.get('/login', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-	if (req.session && req.session.user) {
-		req.session.user = null;
-	}
+	req.session.reset()
 	res.redirect("/users/login");
 })
 

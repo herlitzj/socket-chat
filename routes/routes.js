@@ -11,7 +11,7 @@ var user = new User;
 // General Routes
 /*********************/
 router.get('/', function(req, res) {
-    res.render('layouts/landing')
+    res.render('layouts/landing', req.session);
 });
 
 router.get('/chat', function(req, res) {

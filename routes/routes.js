@@ -47,7 +47,6 @@ router.get('/users/:id', function(req, res) {
             }
         }
     }
-    console.log("SESSION: ", req.session)
     return user.get(req.params.id, req.session, callback);
 });
 

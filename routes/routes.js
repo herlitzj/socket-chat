@@ -15,7 +15,8 @@ router.get('/', function(req, res) {
 });
 
 router.get('/chat', function(req, res) {
-    res.render('chat');
+	if(! req.session.user) res.redirect('login');
+    else res.render('chat');
 });
 
 router.get('/login', function(req, res) {

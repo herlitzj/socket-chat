@@ -16,6 +16,7 @@
     "express-handlebars": "^2.0.1",
     "express-session": "^1.11.3",
     "http-status-codes": "^1.1.6",
+    "mocha": "^3.2.0",
     "mysql": "^2.8.0",
     "node-soundcloud": "0.0.5",
     "password-hash-and-salt": "^0.1.4",

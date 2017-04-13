@@ -33,7 +33,6 @@ class Session {
                         return callback(err);
                     } else {
                         if(is_valid) {
-                            console.log("SETTING THE SESSION")
                             user_session.user = user_id;
                             return_object.message = "Validated";
                             return_object.validated = is_valid;

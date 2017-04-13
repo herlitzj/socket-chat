@@ -36,12 +36,14 @@ class Session {
                             user_session.user = user_id;
                             return_object.message = "Validated";
                             return_object.validated = is_valid;
+                        } else {
+                            console.log("Login failure: ", return_object);
                         }
                         return callback(null, return_object);
                     }
                 })
             } else {
-                console.log(return_object);
+                console.log("Login failure: ", return_object);
                 return (callback(null, return_object));
             }
         });

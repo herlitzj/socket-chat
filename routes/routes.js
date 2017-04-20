@@ -11,16 +11,23 @@ var user = new User;
 // General Routes
 /*********************/
 router.get('/', function(req, res) {
-    res.render('layouts/landing')
+    res.render('layouts/landing', req.session);
 });
 
 router.get('/chat', function(req, res) {
-    res.render('chat');
+	if(!req.session.user) res.redirect('login');
+    else res.render('chat');
 });
 
 router.get('/login', function(req, res) {
-    res.render('login');
+	if(req.session && req.session.user) res.redirect('/users/' + req.session.user);
+    else res.render('login');
 });
+
+router.get('/logout', function(req, res) {
+	req.session.reset()
+	res.redirect("/users/login");
+})
 
 /*********************
 // User Routes
@@ -49,15 +56,21 @@ router.post('/users/login', function(req, res) {
             res.sendStatus(err.code);
             console.log(err);
         } else {
-            if (result) {
-                res.redirect("/users/" + result);
+            if (result.validated) {
+                res.redirect("/users/" + req.session.user);
             } else {
                 res.redirect("/login");
             }
         }
     }
-    return session.login(req.body.username, req.body.password, req.session, callback);
+
+    if (req.session.user) {
+    	res.redirect("/users/" + req.session.user)
+    } else {
+    	return session.login(req.body.username, req.body.password, req.session, callback);
+    }
 });
+
 
 router.post('/users/register', function(req, res) {
     var callback = (err, result) => {
@@ -69,7 +82,7 @@ router.post('/users/register', function(req, res) {
             console.log(result);
         }
     }
-    return user.create(req.body, callback)
+    return user.create(req.body, req.session, callback)
 });
 
 router.put('/users/:id', function(req, res) {

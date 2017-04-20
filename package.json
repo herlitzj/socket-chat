@@ -4,7 +4,7 @@
   "description": "socket chat webapp",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node chat.js"
   },
   "author": "OSU",
@@ -16,8 +16,10 @@
     "express-handlebars": "^2.0.1",
     "express-session": "^1.11.3",
     "http-status-codes": "^1.1.6",
+    "mocha": "^3.2.0",
     "mysql": "^2.8.0",
     "node-soundcloud": "0.0.5",
+    "password-hash-and-salt": "^0.1.4",
     "request": "^2.65.0",
     "socket.io": "^1.7.3"
   }

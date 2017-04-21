@@ -41,7 +41,6 @@ router.get('/users/:id', function(req, res) {
         } else {
             if (result) {
                 res.render('layouts/user_profile', result[0]);
-                console.log(result);
             } else {
             	res.redirect("/login");
             }

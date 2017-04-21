@@ -7,6 +7,7 @@ var http_codes = require('http-status-codes');
 
 class User {
     get(user_id, user_session, callback) {
+        console.log(user_session);
         if (user_session.user != user_id) {
             return callback(null, null);
         }

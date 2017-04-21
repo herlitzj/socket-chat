@@ -9,14 +9,20 @@ var handlebars = require('express-handlebars').create({
 var bodyParser = require('body-parser');
 var request = require('request');
 var fs = require('fs');
-var session = require('client-sessions');
 
-app.use(session({
-    cookieName: 'session',
+var session = require('express-session')({
     secret: 'cookie id',
-    duration: 30 * 60 * 1000,
-    activeDuration: 5 * 60 * 1000,
-}));
+    cookie: {
+        maxAge: Date.now() + (30 * 86400 * 1000),
+    },
+    saveUninitialized: true,
+    resave: false
+});
+
+var sharedsession = require("express-socket.io-session");
+
+app.use(session);
+
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -35,6 +41,10 @@ app.use(express.static(__dirname));
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+io.use(sharedsession(session, {
+    autoSave: true
+}));
+
 // Load routes
 app.use('/', routes)
 app.use(redirectUnmatched); // handle all unhandled routes
@@ -42,19 +52,21 @@ function redirectUnmatched(req, res) {
   res.redirect("/");
 }
 
+
+
 io.on('connection', function(socket) {
     console.log("A user has connected.");
 })
 
 io.on('connection', function(socket) {
-
+    console.log(socket.request);
     socket.on('chat message', function(msg) {
         var date = new Date();
         var time_str = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         var source = fs.readFileSync("./views/layouts/chat_template.handlebars");
         var template = require("./views/layouts/chat_template.handlebars");
         var msg_data = {
-            username: 'username',
+            username: socket.handshake.session.username,
             msg: msg,
             time: time_str
         };

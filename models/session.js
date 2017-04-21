@@ -2,8 +2,9 @@
 var Database = require('./database');
 var db = new Database();
 var http_codes = require('http-status-codes');
-var session = require('client-sessions');
 var hasher = require('password-hash-and-salt');
+
+
 
 class Session {
     login(username, password, user_session, callback) {
@@ -34,6 +35,7 @@ class Session {
                     } else {
                         if(is_valid) {
                             user_session.user = user_id;
+                            user_session.username = username;
                             return_object.message = "Validated";
                             return_object.validated = is_valid;
                         } else {

@@ -66,16 +66,17 @@
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-            <a style="text-decoration: none" href=""><li class="mdl-menu__item">Preferences</li></a>
-            <a style="text-decoration: none" href=""><li class="mdl-menu__item">Sign Out</li></a>
-			<a style="text-decoration: none" href=""><li class="mdl-menu__item">About</li></a>
-            <a style="text-decoration: none" href=""><li class="mdl-menu__item">Legal information</li></a>
+            <a href=""><li class="mdl-menu__item">Preferences</li></a>
+            <a href=""><li class="mdl-menu__item">Sign Out</li></a>
+			<a href=""><li class="mdl-menu__item">About</li></a>
+            <a href=""><li class="mdl-menu__item">Legal information</li></a>
           </ul>
         </div>
       </header>
       <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
         <header class="demo-drawer-header">
-          <img src="img/user.png" class="demo-avatar">
+          <!-- <img src="img/user.png" class="demo-avatar"> -->
+		  <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>
           <div class="demo-avatar-dropdown">
             <span>alex@deo.com</span>
             <div class="mdl-layout-spacer"></div>
@@ -97,9 +98,9 @@
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Music</a>
 		<br />
           <a class="mdl-navigation__link" href="">Direct Messages</a>
-		  <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">chat_bubble</i>User1</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">chat_bubble</i>User2</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">chat_bubble</i>User3</a>
+		  <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_hotel</i>User1</a>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_hotel</i>User2</a>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_hotel</i>User3</a>
           <div class="mdl-layout-spacer"></div>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
         </nav>
@@ -116,7 +117,7 @@
 		<div class="mdl-layout-spacer"></div>
 		<footer style="background-color: white; position: fixed; bottom: 0;" class="mdl-mini-footer">
 			<div class="input-group">
-				<input type="text" id="msg_text" class="form-control" placeholder="Enter Message" />
+				<input type="text" id="msg_text" class="form-control mdl-textfield__input" placeholder="Enter Message" />
 				<span class="input-group-btn">
 					<button id="send_msg" class="btn btn-info" type="button">SEND</button>
 				</span>

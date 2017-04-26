@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
+
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
+a:link {
+  text-decoration: none;
+ }
 .demo-avatar {
   width: 48px;
   height: 48px;

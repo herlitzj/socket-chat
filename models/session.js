@@ -8,7 +8,7 @@ var hasher = require('password-hash-and-salt');
 
 class Session {
     login(username, password, user_session, callback) {
-        var query_string = "SELECT id, hashed_pw FROM users WHERE username = ?";
+        var query_string = "SELECT id, email, hashed_pw FROM users WHERE username = ?";
         var values = [username];
         var query = db.build_query(query_string, values);
 
@@ -27,6 +27,7 @@ class Session {
             if (results.length) {
                 var db_password = results[0].hashed_pw;
                 var user_id = results[0].id;
+                var email = results[0].email;
                 this.validate_password(password, db_password, (val_error, is_valid) => {
                     if(val_error) {
                         var err = new Error(val_error);
@@ -36,6 +37,7 @@ class Session {
                         if(is_valid) {
                             user_session.user = user_id;
                             user_session.username = username;
+                            user_session.email = email;
                             return_object.message = "Validated";
                             return_object.validated = is_valid;
                         } else {

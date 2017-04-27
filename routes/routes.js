@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
 
 router.get('/chat', function(req, res) {
 	if(!req.session.user) res.redirect('login');
-    else res.render('chat');
+    else res.render('chat', req.session);
 });
 
 router.get('/login', function(req, res) {
@@ -64,7 +64,7 @@ router.post('/users/login', function(req, res) {
     }
 
     if (req.session.user) {
-    	res.redirect("/users/" + req.session.user)
+    	res.redirect("/users/" + req.session.user);
     } else {
     	return session.login(req.body.username, req.body.password, req.session, callback);
     }
@@ -84,13 +84,13 @@ router.post('/users/register', function(req, res) {
     return user.create(req.body, req.session, callback)
 });
 
-router.put('/users/:id', function(req, res) {
+router.post('/users/:id/edit', function(req, res) {
     var callback = (err, result) => {
         if (err) {
             res.sendStatus(err.code);
             console.log(err);
         } else {
-            res.sendStatus(200);
+            res.redirect("/users/" + req.session.user);
             console.log(result);
         }
     }

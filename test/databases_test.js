@@ -16,4 +16,26 @@ describe('Database', function() {
       	assert.equal(result, expected_string);
     });
   });
+
+  describe('#copy_table()', function() {
+  	it('should properly copy a table', function(done) {
+  		var callback = function(err, success) {
+  			if(err) console.log(err);
+  			assert.equal(success, true);
+  			done()
+  		}
+  		db.copy_table('chats', callback);
+  	})
+  })
+
+  describe('#delete_table()', function() {
+  	it('should properly delete a table', function(done) {
+  		var callback = function(err, success) {
+  			if(err) console.log(err);
+  			assert.equal(success, true);
+  			done()
+  		}
+  		db.delete_table('TEST_chats', callback);
+  	})
+  })
 });

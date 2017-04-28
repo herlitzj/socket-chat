@@ -7,7 +7,7 @@ var http_codes = require('http-status-codes');
 
 class Chat {
 	get(id, user_session, callback) {
-		var query_string = "SELECT name FROM chats WHERE id = ?";
+		var query_string = "SELECT id, name FROM chats";
 		var values = [id];
 		var query = db.build_query(query_string, values);
 

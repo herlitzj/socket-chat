@@ -59,7 +59,6 @@ io.on('connection', function(socket) {
 })
 
 io.on('connection', function(socket) {
-    console.log(socket.request);
     socket.on('chat message', function(msg) {
         var date = new Date();
         var time_str = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();

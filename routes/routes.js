@@ -47,7 +47,7 @@ router.get('/chats/:id', function(req, res) {
             }
         }
     }
-    if(!req.session.user) res.redirect('login');
+    if(!req.session.user) res.redirect('/login');
     else {
         return chat.get(req.params.id, req.session, callback);
     }

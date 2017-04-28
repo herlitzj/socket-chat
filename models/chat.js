@@ -12,18 +12,18 @@ class Chat {
 		var query = db.build_query(query_string, values);
 
 		db.connection.query(query, (error, results, fields) => {
-        if (error) {
-            var error = new Error(error)
-            error.code = http_codes.NOT_FOUND;
-            return callback(error);
-        } else {
+            if (error) {
+                var error = new Error(error)
+                error.code = http_codes.NOT_FOUND;
+                return callback(error);
+            } else {
         		var return_object = {
         			user_session: user_session,
         			chats: results
         		}
-            return callback(null, return_object);
-        }
-    })
+                return callback(null, return_object);
+            }
+        })
 	}
 	create(chat_info, callback) {
     var query_string = "INSERT INTO chats (name, created_at, updated_at) VALUES(?, NOW(), NOW())"

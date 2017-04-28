@@ -30,9 +30,28 @@ router.get('/logout', function(req, res) {
 // Chat Routes
 /*********************/
 
-router.get('/chats/new', function(req, res) {
+router.get('/chat/new', function(req, res) {
     res.render('layouts/channel_create');
 })
+
+router.get('/chats', function(req, res) {
+    var callback = (err, result) => {
+        if (err) {
+            res.sendStatus(err.code);
+            console.log(err);
+        } else {
+            if (result) {
+                res.render('chat', result);
+            } else {
+                res.redirect("/login");
+            }
+        }
+    }
+    if(!req.session.user) res.redirect('/login');
+    else {
+        return chat.get(1, req.session, callback);
+    }
+});
 
 router.get('/chats/:id', function(req, res) {
     var callback = (err, result) => {
@@ -49,7 +68,7 @@ router.get('/chats/:id', function(req, res) {
     }
     if(!req.session.user) res.redirect('/login');
     else {
-        return chat.get(req.params.id, req.session, callback);
+        return chat.get(1, req.session, callback);
     }
 });
 

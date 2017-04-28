@@ -68,7 +68,7 @@
           <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
             <a href=""><li class="mdl-menu__item">Preferences</li></a>
             <a href=""><li class="mdl-menu__item">Sign Out</li></a>
-			<a href=""><li class="mdl-menu__item">About</li></a>
+			      <a href=""><li class="mdl-menu__item">About</li></a>
             <a href=""><li class="mdl-menu__item">Legal information</li></a>
           </ul>
         </div>
@@ -76,29 +76,29 @@
       <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
         <header class="demo-drawer-header">
           <!-- <img src="img/user.png" class="demo-avatar"> -->
-		  <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>
+		      <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>
           <div class="demo-avatar-dropdown">
-            <span>{{username}}</span>
+            <span>{{user_session.username}}</span>
             <div class="mdl-layout-spacer"></div>
             <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
               <i class="material-icons" role="presentation">arrow_drop_down</i>
               <span class="visuallyhidden">Accounts</span>
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-              <li class="mdl-menu__item"><a href="/users/{{user}}">{{username}}</a></li>
+              <li class="mdl-menu__item"><a href="/users/{{user_session.user}}">{{user_session.username}}</a></li>
               <li class="mdl-menu__item">alex@gmail.com</li>
               <li class="mdl-menu__item"><i class="material-icons">add</i>Add another account...</li>
             </ul>
           </div>
         </header>
 		<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-          <a class="mdl-navigation__link" href="">Channels</a>
-		  <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>General</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Movies</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Music</a>
-		<br />
+          <p class="mdl-navigation__link" href="">Channels<a href="/chats/new"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i></a></p>
+          {{#each chats}}
+            <a class="mdl-navigation__link" href="?id={{id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>{{name}}</a>
+          {{/each}}
+		      <br />
           <a class="mdl-navigation__link" href="">Direct Messages</a>
-		  <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person</i>User1</a>
+		      <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person</i>User1</a>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_hotel</i>User2</a>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_hotel</i>User3</a>
           <div class="mdl-layout-spacer"></div>

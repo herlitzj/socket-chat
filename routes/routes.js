@@ -3,20 +3,17 @@ var router = express.Router();
 
 // Load models
 var User = require('../models/user');
+var user = new User;
+var Chat = require('../models/chat');
+var chat = new Chat;
 var Session = require('../models/session');
 var session = new Session;
-var user = new User;
 
 /*********************
 // General Routes
 /*********************/
 router.get('/', function(req, res) {
     res.render('layouts/landing', req.session);
-});
-
-router.get('/chat', function(req, res) {
-	if(!req.session.user) res.redirect('login');
-    else res.render('chat', req.session);
 });
 
 router.get('/login', function(req, res) {
@@ -28,6 +25,48 @@ router.get('/logout', function(req, res) {
 	req.session.reset()
 	res.redirect("/users/login");
 })
+
+/*********************
+// Chat Routes
+/*********************/
+
+router.get('/chats/new', function(req, res) {
+    res.render('layouts/channel_create');
+})
+
+router.get('/chats', function(req, res) {
+    var callback = (err, result) => {
+        if (err) {
+            res.sendStatus(err.code);
+            console.log(err);
+        } else {
+            if (result) {
+                res.render('chat', result);
+            } else {
+                res.redirect("/login");
+            }
+        }
+    }
+    if(!req.session.user) res.redirect('/login');
+    else {
+        return chat.get(req.query.id, req.session, callback);
+    }
+});
+
+router.post('/chats', function(req, res) {
+    var callback = (err, result) => {
+        if (err) {
+            res.sendStatus(err.code);
+            console.log(err);
+        } else {
+            res.redirect("/chats/" + result.insertId);
+            console.log(result);
+        }
+    }
+    if(!req.session.user) res.redirect('login');
+    else return chat.create(req.body, callback)
+})
+
 
 /*********************
 // User Routes

@@ -1,7 +1,7 @@
 "use strict"
 var mysql = require('mysql');
 
-const PROD_DATABASE_INFO = {
+const PROD_DB_INFO = {
     host: 'cs361.cdm64kabqtwv.us-west-2.rds.amazonaws.com',
     user: 'wcamiller',
     password: 'cs361projectb',
@@ -15,7 +15,7 @@ const TEST_DB_INFO = {
     database: 'eridanus_dev'
 }
 
-const DATABASE_INFO = process.env.NODE_ENV == 'production' ? PROD_DB_INFO : TEST_DB_INFO
+const DATABASE_INFO = process.env.DB_ENV == 'production' ? PROD_DB_INFO : TEST_DB_INFO
 
 class Database {
   constructor() {

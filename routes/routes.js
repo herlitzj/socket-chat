@@ -22,7 +22,7 @@ router.get('/login', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-	req.session.reset()
+	req.session.destroy()
 	res.redirect("/users/login");
 })
 

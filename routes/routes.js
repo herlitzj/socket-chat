@@ -22,7 +22,7 @@ router.get('/login', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-	req.session.reset()
+	req.session.destroy()
 	res.redirect("/users/login");
 })
 
@@ -113,7 +113,9 @@ router.post('/users/login', function(req, res) {
 router.post('/users/register', function(req, res) {
     var callback = (err, result) => {
         if (err) {
-            res.sendStatus(err.code);
+            if (err.code === 404) {
+                res.status(404).send("Duplicate entry.");
+            }
             console.log(err);
         } else {
             res.redirect("/users/" + result.insertId);

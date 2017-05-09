@@ -177,3 +177,12 @@ _:-ms-input-placeholder, :root .demo-graph {
   box-sizing: border-box;
   align-items: center;
 }
+.avatar {
+  width: 64px;
+  height: 64px;
+}
+.scrolling {
+  overflow: scroll;
+  position: relative;
+  bottom:0;
+}

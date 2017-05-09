@@ -2,6 +2,7 @@ var express = require('express');
 var routes = require('./routes/routes');
 
 var app = express();
+
 var handlebars = require('express-handlebars').create({
     defaultLayout: 'main'
 });
@@ -22,11 +23,11 @@ var session = require('express-session')({
 var sharedsession = require("express-socket.io-session");
 
 app.use(session);
-
-
 app.use(bodyParser.urlencoded({
+    limit: '5mb',
     extended: false
 }));
+
 
 app.use(bodyParser.json());
 
@@ -49,7 +50,7 @@ io.use(sharedsession(session, {
 app.use('/', routes)
 app.use(redirectUnmatched); // handle all unhandled routes
 function redirectUnmatched(req, res) {
-  res.redirect("/");
+    res.redirect("/");
 }
 
 
@@ -62,12 +63,12 @@ io.on('connection', function(socket) {
     socket.on('chat message', function(msg) {
         var date = new Date();
         var time_str = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-        var source = fs.readFileSync("./views/layouts/chat_template.handlebars");
         var template = require("./views/layouts/chat_template.handlebars");
         var msg_data = {
             username: socket.handshake.session.username,
             msg: msg,
-            time: time_str
+            time: time_str,
+            avatar: socket.handshake.session.avatar
         };
         var html = template(msg_data);
         io.emit('chat message', {

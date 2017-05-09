@@ -44,6 +44,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	  <link href="css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/chat.css">
+
 </head>
 <body>
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
@@ -107,7 +108,7 @@
 		<!-- Chat content goes here -->
 		<div class="page-content">
 			 <div class="panel-body">
-				<ul id="chat_history" class="media-list">
+				<ul id="chat_history" class="media-list scrolling">
 				</ul>
 			</div>
 		</div>
@@ -129,4 +130,6 @@
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="js/client.js"></script>
+
+
 </body>

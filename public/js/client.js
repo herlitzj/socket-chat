@@ -11,6 +11,7 @@ $(function() {
         }
     });
     socket.on('chat message', function(data) {
-        $('#chat_history').append(data.html );
+        $('#chat_history').append(data.html);
+
     });
 });

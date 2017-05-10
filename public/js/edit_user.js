@@ -9,7 +9,7 @@ $(function() {
             avatar_img: {
                 extension: "png|gif|jpg|jpeg"
             },
-            b64_data: {
+            avatar: {
                 maxlength: 1048576
             }
         }

@@ -83,12 +83,12 @@ io.on('connection', function(socket) {
                 });
             }
         }
-        var cl = {
+        var chat_line = {
             user_id: socket.handshake.session.user,
             chat_id: socket.handshake.session.chat_id,
             line_text: msg
         }
-        chatLine.create(cl, emit)
+        chatLine.create(chat_line, emit)
     });
 });
 

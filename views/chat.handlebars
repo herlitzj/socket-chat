@@ -77,14 +77,14 @@
           <!-- <img src="img/user.png" class="demo-avatar"> -->
 		      <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>
           <div class="demo-avatar-dropdown">
-            <span>{{user_session.username}}</span>
+            <span>{{chats.user_session.username}}</span>
             <div class="mdl-layout-spacer"></div>
             <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
               <i class="material-icons" role="presentation">arrow_drop_down</i>
               <span class="visuallyhidden">Accounts</span>
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-              <li class="mdl-menu__item"><a href="/users/{{user_session.user}}">{{user_session.username}}</a></li>
+              <li class="mdl-menu__item"><a href="/users/{{chats.user_session.user}}">{{chats.user_session.username}}</a></li>
               <li class="mdl-menu__item">alex@gmail.com</li>
               <li class="mdl-menu__item"><i class="material-icons">add</i>Add another account...</li>
             </ul>
@@ -92,7 +92,7 @@
         </header>
 		<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
           <p class="mdl-navigation__link" href="">Channels<a href="/chats/new"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i></a></p>
-          {{#each chats}}
+          {{#each chats.chats}}
             <a class="mdl-navigation__link" href="?id={{id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>{{name}}</a>
           {{/each}}
 		      <br />
@@ -106,15 +106,32 @@
       </div>
 	  <main class="mdl-layout__content">
 		<!-- Chat content goes here -->
-		<div class="page-content">
+		<div class="page-content" style="padding-bottom: 60px;">
 			 <div class="panel-body">
-				<ul id="chat_history" class="media-list scrolling">
-				</ul>
-			</div>
-		</div>
-		<!-- Chat content ends here -->
-		<div class="mdl-layout-spacer"></div>
-		<footer style="background-color: white; position: fixed; bottom: 0;" class="mdl-mini-footer">
+				<ul id="chat-history" class="media-list scrolling">
+        {{#each chat_history}}
+          <li class="media">
+            <div class="media-body">
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img id="avatar" class="avatar media-object img-circle " src={{avatar}}></img>
+                    </a>
+                    <div class="media-body">
+                        {{{line_text}}}
+                        <br />
+                        <small class="text-muted">{{username}} | {{created_at}}</small>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+          </li> 
+        {{/each}}
+        </ul>
+      </div>
+    </div>
+    <!-- Chat content ends here -->
+    <div class="mdl-layout-spacer"></div>
+    <footer style="background-color: white; position: fixed; bottom: 0;" class="mdl-mini-footer">
 			<div class="input-group">
 				<input type="text" id="msg_text" class="form-control mdl-textfield__input" placeholder="Enter Message" />
 				<span class="input-group-btn">

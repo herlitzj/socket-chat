@@ -3,6 +3,7 @@ $(function() {
     $('#send_msg').click(function() {
         socket.emit('chat message', $('#msg_text').val());
         $('#msg_text').val('');
+        $('#chat_history').animate({scrollTop: $('#chat_history').prop("scrollHeight")}, 500);
         return false;
     });
     $('#msg_text').keypress(function(e) {

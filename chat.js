@@ -1,6 +1,9 @@
 var express = require('express');
 var routes = require('./routes/routes');
 
+var ChatLine = require('./models/chat_line');
+var chatLine = new ChatLine;
+
 var app = express();
 
 var handlebars = require('express-handlebars').create({
@@ -71,9 +74,21 @@ io.on('connection', function(socket) {
             avatar: socket.handshake.session.avatar
         };
         var html = template(msg_data);
-        io.emit('chat message', {
-            html: html
-        });
+        var emit = function(err, result) {
+            if (err) {
+                console.log(err)
+            } else {
+                io.emit('chat message', {
+                    html: html
+                });
+            }
+        }
+        var cl = {
+            user_id: socket.handshake.session.user,
+            chat_id: socket.handshake.session.chat_id,
+            line_text: msg
+        }
+        chatLine.create(cl, emit)
     });
 });
 

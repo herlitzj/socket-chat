@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var async = require('async');
 
 // Load models
 var User = require('../models/user');
@@ -35,21 +36,25 @@ router.get('/chats/new', function(req, res) {
 })
 
 router.get('/chats', function(req, res) {
-    var callback = (err, result) => {
-        if (err) {
-            res.sendStatus(err.code);
-            console.log(err);
-        } else {
-            if (result) {
-                res.render('chat', result);
-            } else {
-                res.redirect("/login");
-            }
-        }
-    }
     if(!req.session.user) res.redirect('/login');
     else {
-        return chat.get(req.query.id, req.session, callback);
+        return async.parallel({
+            chats: function(callback){
+                chat.get(req.query.id, req.session, callback);
+            },
+            chat_history: function(callback){
+                chat.get_history(req.query.id, callback);
+            }
+        },
+        function(err, results) {
+            if(err) {
+                res.sendStatus(err.code);
+                console.log(err);
+            } else {
+                req.session.chat_id = req.query.id;
+                res.render('chat', results)
+            }
+        });
     }
 });
 
@@ -95,7 +100,7 @@ router.post('/users/login', function(req, res) {
             console.log(err);
         } else {
             if (result.validated) {
-                res.redirect("/users/" + req.session.user);
+                res.redirect("/chats?id=1");
             } else {
                 res.redirect("/login");
             }
@@ -118,7 +123,7 @@ router.post('/users/register', function(req, res) {
             }
             console.log(err);
         } else {
-            res.redirect("/users/" + result.insertId);
+            res.redirect("/chats?id=1");
             console.log(result);
         }
     }

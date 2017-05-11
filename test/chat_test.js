@@ -1,6 +1,7 @@
 "use strict"
 
 var assert = require('assert');
+var async = require('async');
 
 var Database = require('../models/database');
 var db = new Database();
@@ -12,12 +13,28 @@ var chat = new Chat();
 var test_id = 2147483647 //largest id available on our db
 var test_name = "test_chat_name"
 
-var cleanup = function(callback) {
+var cleanup = function(done) {
 	var cleanup_query = "DELETE FROM chats WHERE id = " + test_id
-	db.connection.query(cleanup_query, (error, results, fields) => {
-		if(error) console.log(error);
-		else callback();
-	})
+	var auto_increment_query = "ALTER TABLE chats AUTO_INCREMENT = 1"
+
+	async.series([
+	    function(callback){
+	        db.connection.query(cleanup_query, (error, results, fields) => {
+				if(error) console.log(error);
+				callback();
+			})
+	    },
+	    function(callback){
+	        db.connection.query(auto_increment_query, (error, results, fields) => {
+				if(error) console.log(error);
+				callback();
+			})
+	    }
+	],
+	function(err, results){
+	    if(err) console.log(err);
+		else done();
+	});
 }
 
 var insert_chat = function(callback) {
@@ -49,7 +66,8 @@ describe('Chat', function() {
 		            console.log(err);
 		        } else {
 		        	console.log(result)
-		            assert.equal(result.chats[0].name, test_name);
+		        	var expected = result.chats.pop().name;
+		            assert.equal(expected, test_name);
 		            done()
 		        }
 		    }

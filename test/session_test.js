@@ -1,6 +1,7 @@
 "use strict"
 
 var assert = require('assert');
+var async = require('async');
 
 var Database = require('../models/database');
 var db = new Database();
@@ -16,12 +17,28 @@ var test_hash = 'pbkdf2$10000$af6ab57d9cfe9937ff2898eb70921c84867648c214fc35c161
 
 var test_values = [test_id, "test", "user", "test@test.com", test_username, null, test_hash]
 
-var cleanup = function(callback) {
+var cleanup = function(done) {
 	var cleanup_query = "DELETE FROM users WHERE id = " + test_id
-	db.connection.query(cleanup_query, (error, results, fields) => {
-		if(error) console.log(error);
-		else callback();
-	})
+	var auto_increment_query = "ALTER TABLE users AUTO_INCREMENT = 1"
+
+	async.series([
+	    function(callback){
+	        db.connection.query(cleanup_query, (error, results, fields) => {
+				if(error) console.log(error);
+				callback();
+			})
+	    },
+	    function(callback){
+	        db.connection.query(auto_increment_query, (error, results, fields) => {
+				if(error) console.log(error);
+				callback();
+			})
+	    }
+	],
+	function(err, results){
+	    if(err) console.log(err);
+		else done();
+	});
 }
 
 var insert_user = function(callback) {

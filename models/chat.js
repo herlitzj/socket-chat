@@ -13,9 +13,9 @@ class Chat {
 
 		db.connection.query(query, (error, results, fields) => {
             if (error) {
-                var error = new Error(error)
-                error.code = http_codes.NOT_FOUND;
-                return callback(error);
+                var err = new Error(error)
+                err.code = http_codes.NOT_FOUND;
+                return callback(err);
             } else {
         		var return_object = {
         			user_session: user_session,
@@ -32,9 +32,29 @@ class Chat {
 
     db.connection.query(query, (error, results, fields) => {
         if (error) {
-            var error = new Error(error)
-            error.code = http_codes.NOT_FOUND;
-            return callback(error);
+            var err = new Error(error)
+            err.code = http_codes.NOT_FOUND;
+            return callback(err);
+        } else {
+            return callback(null, results);
+        }
+    })
+  }
+  get_history(id, callback) {
+    var query_string = "SELECT cl.line_text, u.username, u.avatar, cl.created_at FROM chat_lines cl " +
+                       "JOIN users u " +
+                       "ON cl.user_id = u.id " +
+                       "WHERE cl.chat_id = ? " +
+                       "ORDER BY cl.created_at " +
+                       "LIMIT 100";
+    var values = [id];
+    var query = db.build_query(query_string, values);
+
+    db.connection.query(query, (error, results, fields) => {
+        if(error) {
+            var err = new Error(error);
+            err.code = http_codes.NOT_FOUND;
+            return callback(err);
         } else {
             return callback(null, results);
         }

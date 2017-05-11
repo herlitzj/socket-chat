@@ -1,6 +1,7 @@
 "use strict"
 
 var assert = require('assert');
+var async = require('async');
 
 var Database = require('../models/database');
 var db = new Database();
@@ -13,12 +14,28 @@ var test_id = 2147483647 //largest id available on our db
 var test_values = [test_id, "test", "user", "test@test.com", "funkytown", null, "test_hash_pw"]
 const USER_TABLE_NAME = 'users';
 
-var cleanup = function(callback) {
-	var cleanup_query = "DELETE FROM users WHERE id = " + test_id
-	db.connection.query(cleanup_query, (error, results, fields) => {
-		if(error) console.log(error);
-		else callback();
-	})
+var cleanup = function(done) {
+	var cleanup_query = "DELETE FROM users WHERE username in ('funkytown', 'update_user', 'created_user')";
+	var auto_increment_query = "ALTER TABLE users AUTO_INCREMENT = 1"
+
+	async.series([
+	    function(callback){
+	        db.connection.query(cleanup_query, (error, results, fields) => {
+				if(error) console.log(error);
+				callback();
+			})
+	    },
+	    function(callback){
+	        db.connection.query(auto_increment_query, (error, results, fields) => {
+				if(error) console.log(error);
+				callback();
+			})
+	    }
+	],
+	function(err, results){
+	    if(err) console.log(err);
+		else done();
+	});
 }
 
 var insert_user = function(callback) {
@@ -98,7 +115,7 @@ describe('User', function() {
 		});
 
 		it('should properly create a new user', function(done) {
-			var mock_session = {user: test_id};
+			var mock_session = {};
 			var create_values = {
 				first_name: "created",
 				last_name: "user",
@@ -120,7 +137,7 @@ describe('User', function() {
 			    }
 
 			    if(error) console.log(error)
-				else user.get(test_id, mock_session, get_callback);
+				else user.get(result.insertId, mock_session, get_callback);
 			}
 
 			user.create(create_values, mock_session, get_user)

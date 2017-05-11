@@ -84,7 +84,7 @@
               <span class="visuallyhidden">Accounts</span>
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-              <li class="mdl-menu__item"><a href="/users/{{user_session.user}}">{{user_session.username}}</a></li>
+              <a href="/users/{{user_session.user}}"><li class="mdl-menu__item">{{user_session.username}}</li></a>
               <li class="mdl-menu__item">alex@gmail.com</li>
               <li class="mdl-menu__item"><i class="material-icons">add</i>Add another account...</li>
             </ul>

@@ -48,7 +48,7 @@ var insert_chat = function(callback) {
 }
 
 describe('Chat', function() {
-	describe('#get()', function() {
+	describe('#get_channels()', function() {
 
 		beforeEach(function(done) {
 			insert_chat(done);
@@ -71,7 +71,7 @@ describe('Chat', function() {
 		            done()
 		        }
 		    }
-			chat.get(test_id, mock_session, callback);
+			chat.get_channels(test_id, mock_session, callback);
 		});
 	  
 	});

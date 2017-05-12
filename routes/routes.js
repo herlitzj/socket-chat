@@ -35,15 +35,15 @@ router.get('/chats/new', function(req, res) {
     res.render('layouts/channel_create');
 })
 
-router.get('/chats', function(req, res) {
+router.get('/chats/:id', function(req, res) {
     if(!req.session.user) res.redirect('/login');
     else {
         return async.parallel({
-            chats: function(callback){
-                chat.get(req.query.id, req.session, callback);
+            channels: function(callback){
+                chat.get_channels(req.params.id, req.session, callback);
             },
             chat_history: function(callback){
-                chat.get_history(req.query.id, callback);
+                chat.get_history(req.params.id, callback);
             }
         },
         function(err, results) {
@@ -51,7 +51,7 @@ router.get('/chats', function(req, res) {
                 res.sendStatus(err.code);
                 console.log(err);
             } else {
-                req.session.chat_id = req.query.id;
+                req.session.chat_id = req.params.id;
                 res.render('chat', results)
             }
         });
@@ -100,7 +100,7 @@ router.post('/users/login', function(req, res) {
             console.log(err);
         } else {
             if (result.validated) {
-                res.redirect("/chats?id=1");
+                res.redirect("/chats/1");
             } else {
                 res.redirect("/login");
             }

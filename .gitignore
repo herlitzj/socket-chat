@@ -2,3 +2,4 @@ node_modules
 rootkey.json
 *.log
 *.yaml
+*.DS_STORE

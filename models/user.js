@@ -7,7 +7,6 @@ var http_codes = require('http-status-codes');
 var fs = require('fs');
 
 var AWS = require('aws-sdk');
-var aws_credentials = require('../rootkey.json');
 const AWSAccessKeyId = process.env.AWS_KEYID;
 const AWSSecretKey = process.env.AWS_SECRETKEY;
 

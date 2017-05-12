@@ -66,7 +66,7 @@ describe('Chat', function() {
 		            console.log(err);
 		        } else {
 		        	console.log(result)
-		        	var expected = result.chats.pop().name;
+		        	var expected = result.channels.pop().name;
 		            assert.equal(expected, test_name);
 		            done()
 		        }

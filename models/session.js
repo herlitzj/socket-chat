@@ -4,8 +4,6 @@ var db = new Database();
 var http_codes = require('http-status-codes');
 var hasher = require('password-hash-and-salt');
 
-
-
 class Session {
     login(username, password, user_session, callback) {
         var query_string = "SELECT id, email, hashed_pw, avatar FROM users WHERE username = ?";
@@ -35,7 +33,7 @@ class Session {
                         err.code = http_codes.INTERNAL_SERVER_ERROR;
                         return callback(err);
                     } else {
-                        if(is_valid) {
+                        if (is_valid) {
                             user_session.user = user_id;
                             user_session.username = username;
                             user_session.email = email;
@@ -51,29 +49,25 @@ class Session {
                         }
                         return callback(null, return_object);
                     }
-                })
+                });
             } else {
                 console.log("Login failure: ", return_object);
                 return (callback(null, return_object));
             }
         });
     }
+
     hash_password(password, callback) {
-        hasher(password).hash(function (error, hash) {
+        hasher(password).hash(function(error, hash) {
             error ? callback(error) : callback(null, hash);
         })
     }
+
     validate_password(password, hash, callback) {
-        hasher(password).verifyAgainst(hash, function (error, verified) {
+        hasher(password).verifyAgainst(hash, function(error, verified) {
             error ? callback(error) : callback(null, verified);
         })
     }
 }
 
 module.exports = Session;
-
-
-
-
-
-

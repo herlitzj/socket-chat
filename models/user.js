@@ -8,8 +8,8 @@ var fs = require('fs');
 
 var AWS = require('aws-sdk');
 var aws_credentials = require('../rootkey.json');
-var AWSAccessKeyId = aws_credentials.AWSAccessKeyId;
-var AWSSecretKey = aws_credentials.AWSSecretKey;
+const AWSAccessKeyId = process.env.AWS_KEYID;
+const AWSSecretKey = process.env.AWS_SECRETKEY;
 
 AWS.config.update({
     accessKeyId: AWSAccessKeyId,

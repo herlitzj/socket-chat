@@ -6,7 +6,7 @@ var session = new Session();
 var http_codes = require('http-status-codes');
 
 class Chat {
-	get(id, user_session, callback) {
+	get_channels(id, user_session, callback) {
 		var query_string = "SELECT id, name FROM chats";
 		var values = [id];
 		var query = db.build_query(query_string, values);
@@ -19,7 +19,7 @@ class Chat {
             } else {
         		var return_object = {
         			user_session: user_session,
-        			chats: results
+        			channels: results
         		}
                 return callback(null, return_object);
             }

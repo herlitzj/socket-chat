@@ -39,8 +39,7 @@ var path = require('path');
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', (process.env.PORT || 3007));
-app.use(express.static('public'));
-app.use(express.static(__dirname));
+app.use('/public', express.static(path.join(__dirname, '/public')));
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);

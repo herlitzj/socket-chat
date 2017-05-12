@@ -12,6 +12,8 @@ $(function() {
     });
     socket.on('chat message', function(data) {
         $('#chat_history').append(data.html);
+        var objDiv = document.getElementById("scroll");
+        objDiv.scrollTop = objDiv.scrollHeight;
 
     });
 });

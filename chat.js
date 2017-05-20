@@ -61,7 +61,16 @@ io.on('connection', function(socket) {
 })
 
 io.on('connection', function(socket) {
+    var room = 'main';
+
+    socket.on('room', function(rm) {
+        socket.join(rm);
+        room = rm;
+    });
+
     socket.on('chat message', function(msg) {
+
+        
         var date = new Date();
         var time_str = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         var template = require("./views/layouts/chat_template.handlebars");
@@ -76,7 +85,7 @@ io.on('connection', function(socket) {
             if (err) {
                 console.log(err)
             } else {
-                io.emit('chat message', {
+                io.sockets.in(room).emit('chat message', {
                     html: html
                 });
             }

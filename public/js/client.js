@@ -1,5 +1,11 @@
 $(function() {
     var socket = io();
+    var get_room = function() {
+        var regex = /^\/chats\/([\d\w]+)$/
+        var path = window.location.pathname;
+        var room = regex.exec(path)[1];
+        return room;
+    }
 
     $(window).load(function() {
         var objDiv = document.getElementById("scroll");
@@ -19,10 +25,7 @@ $(function() {
     });
     
     socket.on('connect', function() {
-        var regex = /^\/chats\/([\d\w]+)$/
-        var path = window.location.pathname;
-        var room = regex.exec(path)[1];
-        socket.emit('room', room);
+        socket.emit('room', get_room());
     });
 
     socket.on('chat message', function(data) {
@@ -30,4 +33,5 @@ $(function() {
         var objDiv = document.getElementById("scroll");
         objDiv.scrollTop = objDiv.scrollHeight;
     });
+
 });

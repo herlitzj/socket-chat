@@ -60,6 +60,9 @@ class User {
                         return callback(error);
                     } else {
                         user_session.user = results.insertId;
+                        user_session.username = user_info.username;
+                        user_session.email = user_info.email;
+                        user_session.avatar = avatar;
                         return callback(null, results);
                     }
                 })

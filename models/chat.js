@@ -41,7 +41,7 @@ class Chat {
     })
   }
   get_history(id, callback) {
-    var query_string = "SELECT cl.line_text, u.username, u.avatar, cl.created_at FROM chat_lines cl " +
+    var query_string = "SELECT cl.line_text, u.username, u.avatar, DATE_FORMAT(cl.created_at,'%b %d %h:%i %p') created_at FROM chat_lines cl " +
                        "JOIN users u " +
                        "ON cl.user_id = u.id " +
                        "WHERE cl.chat_id = ? " +

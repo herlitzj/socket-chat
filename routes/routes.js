@@ -123,7 +123,7 @@ router.post('/users/register', function(req, res) {
             }
             console.log(err);
         } else {
-            res.redirect("/chats?id=1");
+            res.redirect("/chats/1");
             console.log(result);
         }
     }

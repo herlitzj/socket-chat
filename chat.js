@@ -69,10 +69,15 @@ io.on('connection', function(socket) {
     });
 
     socket.on('chat message', function(msg) {
-
-        
         var date = new Date();
-        var time_str = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        var hr = date.getHours();
+        var min = date.getMinutes();
+        if (min < 10) {
+            min = "0" + min;
+        }
+        var ampm = hr < 12 ? "AM" : "PM";
+        if (hr > 12) hr-=12;
+        var time_str = hr + ":" + min + " " + ampm
         var template = require("./views/layouts/chat_template.handlebars");
         var msg_data = {
             username: socket.handshake.session.username,

@@ -4,7 +4,7 @@
   "description": "socket chat webapp",
   "main": "app.js",
   "scripts": {
-    "test": "mocha",
+    "test": "DB_ENV=test mocha",
     "start": "node chat.js"
   },
   "author": "OSU",

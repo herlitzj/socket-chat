@@ -97,7 +97,7 @@
 		      <br />
           <p class="mdl-navigation__link" href="">Direct Messages<a href="/direct_message/new"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i></a></p>
 		      {{#each direct_messages}}
-            <a class="mdl-navigation__link" href="/direct_message/{{id}}" title="{{name}}">{{participants}} {{truncated_name}}</a>
+            <a class="mdl-navigation__link" href="/direct_message/{{id}}" title="{{name}}">{{#if participants}}<span class="badge">{{participants}}</span>{{else}}<span class="badge">-</span>{{/if}} {{truncated_name}}</a>
           {{/each}}
           <div class="mdl-layout-spacer"></div>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>

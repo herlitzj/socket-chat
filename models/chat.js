@@ -79,7 +79,8 @@ class Chat {
             return callback(err);
         } else {
             results.forEach(result => {
-                result.truncated_name = result.name.slice(0,25) + "..."
+                result.truncated_name = result.name.length > 25 ? result.name.slice(0,25) + "..." : result.name;
+                if(result.truncated_name == result.name) result.participants = null;
             })
             return callback(null, results);
         }

@@ -44,6 +44,9 @@ router.get('/chats/:id', function(req, res) {
             },
             chat_history: function(callback){
                 chat.get_history(req.params.id, callback);
+            },
+            direct_messages: function(callback) {
+                chat.get_direct_messages(req.session.user, callback);
             }
         },
         function(err, results) {
@@ -70,6 +73,62 @@ router.post('/chats', function(req, res) {
     }
     if(!req.session.user) res.redirect('login');
     else return chat.create(req.body, callback)
+})
+
+router.get('/direct_message/new', function(req, res) {
+    res.render('layouts/direct_message_create');
+})
+
+router.get('/direct_message/:id', function(req, res) {
+    var callback = function(error, verified) {
+        if(error) {
+            res.sendStatus(error.code);
+            console.log(error);
+        } else if (!verified) {
+            console.log("Direct Message Verification Failed: Forbidden")
+            res.status(403).redirect('/chats/1');
+        } else {
+            return async.parallel({
+                channels: function(callback){
+                    chat.get_channels(req.params.id, req.session, callback);
+                },
+                chat_history: function(callback){
+                    chat.get_history(req.params.id, callback);
+                },
+                direct_messages: function(callback) {
+                    chat.get_direct_messages(req.session.user, callback);
+                }
+            },
+            function(err, results) {
+                if(err) {
+                    res.sendStatus(err.code);
+                    console.log(err);
+                } else {
+                    req.session.chat_id = req.params.id;
+                    res.render('chat', results)
+                }
+            });
+        }
+    }
+
+    if(!req.session.user) res.redirect('/login');
+    else {
+        chat.verify_direct_message(req.session.user, req.params.id, callback);
+    }
+});
+
+router.post('/direct_message', function(req, res) {
+    var callback = (err, result) => {
+        if (err) {
+            res.sendStatus(err.code);
+            console.log(err);
+        } else {
+            res.redirect("/chats/" + result.direct_message_id);
+            console.log(result);
+        }
+    }
+    if(!req.session.user) res.redirect('login');
+    else return chat.create_direct_message(req.body.participants, req.session.username, callback)
 })
 
 

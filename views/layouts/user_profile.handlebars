@@ -1,5 +1,19 @@
 <link rel="stylesheet" type="text/css" href="../../public/css/edit_user.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<header class="docs-layout-header mdl-layout__header">
+	<div class="docs-navigation__container">
+		<nav class="docs-navigation mdl-navigation">
+			<button id="demo-menu-lower-left" class="mdl-button mdl-js-button mdl-button--icon">
+			  Chats
+			</button>
+			<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-left">
+			{{#each channels.channels}}
+				<a class="mdl-navigation__link" href="{{id}}"><li class="mdl-menu__item">{{name}}</li></a>
+			{{/each}}
+			</ul>
+		</nav>
+	</div>
+</header>
 <div class="container">
 	<div class="text-center">
     	<h2>Edit Your Profile</h2>
@@ -86,12 +100,29 @@
             <div class="col-md-8">
               <input type="submit" id="save_changes" class="btn btn-primary" value="Save Changes">
               <span></span>
-              <input type="reset" class="btn btn-default" value="Cancel">
+              <input type="reset" id="snackbar-submit-btn" class="btn btn-default" value="Cancel">
             </div>
           </div>
         </form>
       </div>
   </div>
+<div id="user-change-confirmation-snackbar" class="mdl-js-snackbar mdl-snackbar">
+  <div class="mdl-snackbar__text"></div>
+  <button class="mdl-snackbar__action" type="button"></button>
+</div>
+<script>
+(function() {
+  'use strict';
+  window['counter'] = 0;
+  var snackbarContainer = document.querySelector('#user-change-confirmation-snackbar');
+  var showToastButton = document.querySelector('#snackbar-submit-btn');
+  showToastButton.addEventListener('click', function() {
+    'use strict';
+    var data = {message: 'Changes Saved'};
+    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+  });
+}());
+</script>
 </div>
 <hr>
 

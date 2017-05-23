@@ -44,7 +44,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	  <link href="/public/css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="/public/css/chat.css">
-
 </head>
 <body>
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
@@ -52,7 +51,8 @@
         <div class="mdl-layout__header-row">
           <span class="mdl-layout-title">Eridanus</span>
           <div class="mdl-layout-spacer"></div>
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+          <!-- Search icon to search chat text. Disabled because functionality doesn't exist.
+		  <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
             <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
               <i class="material-icons">search</i>
             </label>
@@ -60,15 +60,14 @@
               <input class="mdl-textfield__input" type="text" id="search">
               <label class="mdl-textfield__label" for="search">Enter your query...</label>
             </div>
-          </div>
+          </div>-->
           <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
             <a href=""><li class="mdl-menu__item">Preferences</li></a>
-            <a href=""><li class="mdl-menu__item">Sign Out</li></a>
-			      <a href=""><li class="mdl-menu__item">About</li></a>
-            <a href=""><li class="mdl-menu__item">Legal information</li></a>
+            <a href="/logout"><li class="mdl-menu__item">Sign Out</li></a>
+			<a href=""><li class="mdl-menu__item">About</li></a>
           </ul>
         </div>
       </header>
@@ -85,7 +84,7 @@
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
               <a href="/users/{{channels.user_session.user}}"><li class="mdl-menu__item">Edit Profile</li></a>
-              <a href="/logout"><li class="mdl-menu__item">Log Out</li></a>
+              <a href="/logout"><li class="mdl-menu__item">Sign Out</li></a>
             </ul>
           </div>
         </header>
@@ -95,7 +94,7 @@
             <a class="mdl-navigation__link" href="{{id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>{{name}}</a>
           {{/each}}
 		      <br />
-          <a class="mdl-navigation__link" href="">Direct Messages</a>
+          <p class="mdl-navigation__link" href="">Direct Messages<a href="/direct_message/new"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i></a></p>
 		      <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person</i>User1</a>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_hotel</i>User2</a>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_hotel</i>User3</a>
@@ -108,24 +107,24 @@
 		<div class="page-content" style="padding-bottom: 60px;">
 			 <div class="panel-body">
 				<ul id="chat_history" class="media-list scrolling">
-        {{#each chat_history}}
-          <li class="media">
-            <div class="media-body">
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img id="avatar" class="avatar media-object img-circle " src={{avatar}}></img>
-                    </a>
-                    <div class="media-body">
-                        {{{line_text}}}
-                        <br />
-                        <small class="text-muted">{{username}} | {{created_at}}</small>
-                        <hr />
-                    </div>
-                </div>
-            </div>
-          </li> 
-        {{/each}}
-        </ul>
+				{{#each chat_history}}
+				  <li class="media">
+					<div class="media-body">
+						<div class="media">
+							<a class="pull-left" href="#">
+								<img id="avatar" class="avatar media-object img-circle " src={{avatar}}></img>
+							</a>
+							<div class="media-body">
+								{{{line_text}}}
+								<br />
+								<small class="text-muted">{{username}} | {{created_at}}</small>
+								<hr />
+							</div>
+						</div>
+					</div>
+				  </li> 
+				{{/each}}
+				</ul>
       </div>
     </div>
     <!-- Chat content ends here -->

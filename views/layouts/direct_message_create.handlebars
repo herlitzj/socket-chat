@@ -1,17 +1,17 @@
 <link href="/public/css/bootstrap.css" rel="stylesheet" />
 <div class="container">
 	<div class="text-center">
-    	<h2>Create a New Channel</h2>
+    	<h2>Create a New Direct Message</h2>
 	</div>
   	<hr>
 	<div class="row">
       <!-- edit form column -->
       <div class="col-md-9 personal-info text-center">
-        <form class="form-horizontal" role="form" action="/chats" method="post">
+        <form class="form-horizontal" role="form" action="/direct_message" method="post">
           <div class="form-group">
-            <label class="col-md-3 control-label">Channel Name:</label>
+            <label class="col-md-3 control-label">Participants:</label>
             <div class="col-md-8">
-              <input class="form-control" type="text" name="channel_name" value="">
+              <input class="form-control" type="text" name="participants" placeholder="username_1, username_2..." value="">
             </div>
           </div>
           <div class="form-group">

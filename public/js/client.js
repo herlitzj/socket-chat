@@ -1,9 +1,9 @@
 $(function() {
     var socket = io();
     var get_room = function() {
-        var regex = /^\/chats\/([\d\w]+)$/
+        var regex = /^\/(chats|direct_message)\/([\d\w]+)$/
         var path = window.location.pathname;
-        var room = regex.exec(path)[1];
+        var room = regex.exec(path)[2];
         return room;
     }
 

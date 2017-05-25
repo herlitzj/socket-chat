@@ -122,6 +122,8 @@ router.get('/direct_message/:id', function(req, res) {
 });
 
 router.delete('/direct_message/:id/deactivate', function(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', '*');
     var callback = (err) => {
         if (err) {
             res.sendStatus(err.code);
@@ -130,7 +132,8 @@ router.delete('/direct_message/:id/deactivate', function(req, res) {
             res.sendStatus(200);
         }
     }
-    return chat.mark_inactive(req.session.user, req.params.id, callback)
+    if(!req.session.user) res.sendStatus(403);
+    else return chat.mark_inactive(req.session.user, req.params.id, callback)
 })
 
 router.post('/direct_message', function(req, res) {

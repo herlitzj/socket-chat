@@ -121,9 +121,7 @@ router.get('/direct_message/:id', function(req, res) {
     }
 });
 
-router.delete('/direct_message/:id/deactivate', function(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', '*');
+router.get('/direct_message/:id/deactivate', function(req, res) {
     var callback = (err) => {
         if (err) {
             res.sendStatus(err.code);

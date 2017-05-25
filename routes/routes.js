@@ -130,7 +130,6 @@ router.delete('/direct_message/:id/deactivate', function(req, res) {
             res.sendStatus(200);
         }
     }
-    if(!req.session.user) res.sendStatus(403);
     else return chat.mark_inactive(req.session.user, req.params.id, callback)
 })
 

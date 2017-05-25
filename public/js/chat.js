@@ -10,4 +10,3 @@ function deleteChannel(id) {
         $("#channel-" + id).html("")
     });
 }
-

@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <header class="docs-layout-header mdl-layout__header mdl-color--blue-grey-800">
 	<div class="docs-navigation__container">
-		<nav class="docs-navigation mdl-navigation mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+		<nav class="docs-navigation mdl-navigation mdl-color-text--blue-grey-400">
 			<!--<button id="user-page-chat-selection-button" class="mdl-button mdl-js-button mdl-button--icon mdl-color-text--blue-grey-400">
 			  Chats
 			</button>
@@ -16,8 +16,8 @@
 			{{/each}}
 			</ul>-->
 			
-			
-			<span>Chats</span>
+			<div class="demo-avatar-dropdown">
+			<h3>Chats</h3>
 			<div class="mdl-layout-spacer"></div>
 			<button id="user-page-chat-selection-button1" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
 			  <i class="material-icons" role="presentation">arrow_drop_down</i>
@@ -28,7 +28,7 @@
 				<a href="/chats/{{id}}"><li class="mdl-menu__item">{{name}}</li></a>
 			  {{/each}}
 			</ul>
-			
+			</div>
 		  
 		</nav>
 	</div>

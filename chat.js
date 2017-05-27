@@ -6,7 +6,15 @@ var chatLine = new ChatLine;
 
 var app = express();
 
+
 var handlebars = require('express-handlebars').create({
+    helpers: {
+        timezone_helper: function(selected, options) {
+            return options.fn(this).replace(
+                new RegExp(' value=\"' + selected + '\"'),
+                '$& selected="selected"');
+        }
+    },
     defaultLayout: 'main'
 });
 
@@ -76,7 +84,8 @@ io.on('connection', function(socket) {
             min = "0" + min;
         }
         var ampm = hr < 12 ? "AM" : "PM";
-        if (hr > 12) hr-=12;
+        if (hr > 12) hr -= 12;
+
         var time_str = hr + ":" + min + " " + ampm
         var template = require("./views/layouts/chat_template.handlebars");
         var msg_data = {
@@ -103,6 +112,7 @@ io.on('connection', function(socket) {
         chatLine.create(chat_line, emit)
     });
 });
+
 
 http.listen(app.get('port'), function() {
     console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');

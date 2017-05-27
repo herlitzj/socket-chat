@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var async = require('async');
 
+
 // Load models
 var User = require('../models/user');
 var user = new User;
@@ -18,13 +19,13 @@ router.get('/', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-	if(req.session && req.session.user) res.redirect('/users/' + req.session.user);
+    if (req.session && req.session.user) res.redirect('/users/' + req.session.user);
     else res.render('login');
 });
 
 router.get('/logout', function(req, res) {
-	req.session.destroy()
-	res.redirect("/users/login");
+    req.session.destroy()
+    res.redirect("/users/login");
 })
 
 /*********************
@@ -36,28 +37,28 @@ router.get('/chats/new', function(req, res) {
 })
 
 router.get('/chats/:id', function(req, res) {
-    if(!req.session.user) res.redirect('/login');
+    if (!req.session.user) res.redirect('/login');
     else {
         return async.parallel({
-            channels: function(callback){
-                chat.get_channels(req.params.id, req.session, callback);
+                channels: function(callback) {
+                    chat.get_channels(req.params.id, req.session, callback);
+                },
+                chat_history: function(callback) {
+                    chat.get_history(req.params.id, callback);
+                },
+                direct_messages: function(callback) {
+                    chat.get_direct_messages(req.session.user, callback);
+                }
             },
-            chat_history: function(callback){
-                chat.get_history(req.params.id, callback);
-            },
-            direct_messages: function(callback) {
-                chat.get_direct_messages(req.session.user, callback);
-            }
-        },
-        function(err, results) {
-            if(err) {
-                res.sendStatus(err.code);
-                console.log(err);
-            } else {
-                req.session.chat_id = req.params.id;
-                res.render('chat', results)
-            }
-        });
+            function(err, results) {
+                if (err) {
+                    res.sendStatus(err.code);
+                    console.log(err);
+                } else {
+                    req.session.chat_id = req.params.id;
+                    res.render('chat', results)
+                }
+            });
     }
 });
 
@@ -71,7 +72,7 @@ router.post('/chats', function(req, res) {
             console.log(result);
         }
     }
-    if(!req.session.user) res.redirect('login');
+    if (!req.session.user) res.redirect('login');
     else return chat.create(req.body, callback)
 })
 
@@ -81,7 +82,7 @@ router.get('/direct_message/new', function(req, res) {
 
 router.get('/direct_message/:id', function(req, res) {
     var callback = function(error, verified) {
-        if(error) {
+        if (error) {
             res.sendStatus(error.code);
             console.log(error);
         } else if (!verified) {
@@ -89,29 +90,29 @@ router.get('/direct_message/:id', function(req, res) {
             res.status(403).redirect('/chats/1');
         } else {
             return async.parallel({
-                channels: function(callback){
-                    chat.get_channels(req.params.id, req.session, callback);
+                    channels: function(callback) {
+                        chat.get_channels(req.params.id, req.session, callback);
+                    },
+                    chat_history: function(callback) {
+                        chat.get_history(req.params.id, callback);
+                    },
+                    direct_messages: function(callback) {
+                        chat.get_direct_messages(req.session.user, callback);
+                    }
                 },
-                chat_history: function(callback){
-                    chat.get_history(req.params.id, callback);
-                },
-                direct_messages: function(callback) {
-                    chat.get_direct_messages(req.session.user, callback);
-                }
-            },
-            function(err, results) {
-                if(err) {
-                    res.sendStatus(err.code);
-                    console.log(err);
-                } else {
-                    req.session.chat_id = req.params.id;
-                    res.render('chat', results)
-                }
-            });
+                function(err, results) {
+                    if (err) {
+                        res.sendStatus(err.code);
+                        console.log(err);
+                    } else {
+                        req.session.chat_id = req.params.id;
+                        res.render('chat', results)
+                    }
+                });
         }
     }
 
-    if(!req.session.user) res.redirect('/login');
+    if (!req.session.user) res.redirect('/login');
     else {
         chat.verify_direct_message(req.session.user, req.params.id, callback);
     }
@@ -127,7 +128,7 @@ router.post('/direct_message', function(req, res) {
             console.log(result);
         }
     }
-    if(!req.session.user) res.redirect('login');
+    if (!req.session.user) res.redirect('login');
     else return chat.create_direct_message(req.body.participants, req.session.username, callback)
 })
 
@@ -145,7 +146,7 @@ router.get('/users/:id', function(req, res) {
             if (result) {
                 res.render('layouts/user_profile', result[0]);
             } else {
-            	res.redirect("/login");
+                res.redirect("/login");
             }
         }
     }
@@ -167,9 +168,9 @@ router.post('/users/login', function(req, res) {
     }
 
     if (req.session.user) {
-    	res.redirect("/users/" + req.session.user);
+        res.redirect("/users/" + req.session.user);
     } else {
-    	return session.login(req.body.username, req.body.password, req.session, callback);
+        return session.login(req.body.username, req.body.password, req.session, callback);
     }
 });
 

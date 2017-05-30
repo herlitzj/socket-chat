@@ -28,7 +28,7 @@ router.get('/logout', function(req, res) {
 })
 
 /*********************
-// Chat Routes
+// Chat and Direct Message Routes
 /*********************/
 
 router.get('/chats/new', function(req, res) {
@@ -77,7 +77,11 @@ router.post('/chats', function(req, res) {
 
 router.get('/direct_message/new', function(req, res) {
     res.render('layouts/direct_message_create');
-})
+});
+
+router.get('/direct_message/:id/add_users', function(req, res) {
+    res.render('layouts/direct_message_add_users', req.params);
+});
 
 router.get('/direct_message/:id', function(req, res) {
     var callback = function(error, verified) {
@@ -117,6 +121,19 @@ router.get('/direct_message/:id', function(req, res) {
     }
 });
 
+router.get('/direct_message/:id/deactivate', function(req, res) {
+    var callback = (err) => {
+        if (err) {
+            res.sendStatus(err.code);
+            console.log(err);
+        } else {
+            res.sendStatus(200);
+        }
+    }
+    if(!req.session.user) res.sendStatus(403);
+    else return chat.mark_inactive(req.session.user, req.params.id, callback)
+})
+
 router.post('/direct_message', function(req, res) {
     var callback = (err, result) => {
         if (err) {
@@ -129,6 +146,20 @@ router.post('/direct_message', function(req, res) {
     }
     if(!req.session.user) res.redirect('login');
     else return chat.create_direct_message(req.body.participants, req.session.username, callback)
+})
+
+router.post('/direct_message/:id/add_users', function(req, res) {
+    var callback = (err, result) => {
+        if (err) {
+            res.sendStatus(err.code);
+            console.log(err);
+        } else {
+            res.redirect("/direct_message/" + result);
+            console.log(result);
+        }
+    }
+    if(!req.session.user) res.redirect('login');
+    else return chat.add_users_to_dm(req.body.users, req.params.id, callback)
 })
 
 

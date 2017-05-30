@@ -23,10 +23,12 @@ class Session {
             }
 
             if (results.length) {
+
                 var db_password = results[0].hashed_pw;
                 var user_id = results[0].id;
                 var email = results[0].email;
                 var avatar = results[0].avatar;
+
                 this.validate_password(password, db_password, (val_error, is_valid) => {
                     if (val_error) {
                         var err = new Error(val_error);
@@ -37,6 +39,7 @@ class Session {
                             user_session.user = user_id;
                             user_session.username = username;
                             user_session.email = email;
+
                             if (avatar) {
                                 user_session.avatar = avatar;
                             } else {

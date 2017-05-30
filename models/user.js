@@ -10,6 +10,9 @@ var AWS = require('aws-sdk');
 const AWSAccessKeyId = process.env.AWS_KEYID;
 const AWSSecretKey = process.env.AWS_SECRETKEY;
 
+console.log(AWSAccessKeyId)
+console.log(AWSSecretKey)
+
 AWS.config.update({
     accessKeyId: AWSAccessKeyId,
     secretAccessKey: AWSSecretKey,
@@ -21,6 +24,7 @@ var lambda = new AWS.Lambda();
 
 
 class User {
+
     get(user_id, user_session, callback) {
         if (user_session.user != user_id) {
             return callback(null, null);
@@ -84,8 +88,35 @@ class User {
             var query_string = "UPDATE users SET ";
 
             for (var val in user_info) {
-                if (user_info[val].length && val !== "id" && val !== "avatar_img" && val !== "timezone" && val !== "password") {
+                if (user_info[val].length && val !== "id" && val !== "avatar_img" && val !== "password") {
                     // remove inappropriate field names on frontend via jquery
+                    if (val === "timezone") {
+                        var timezone_str = user_info[val];
+                        switch (true) {
+                            case (timezone_str.indexOf("Hawaii") !== -1):
+                                user_info[val] = 0;
+                                break;
+                            case (timezone_str.indexOf("Alaska") !== -1):
+                                user_info[val] = 1;
+                                break;
+                            case (timezone_str.indexOf("Pacific") !== -1):
+                                user_info[val] = 2;
+                                break;
+                            case (timezone_str.indexOf("Arizona") !== -1):
+                                user_info[val] = 3;
+                                break;
+                            case (timezone_str.indexOf("Mountain") !== -1):
+                                user_info[val] = 4;
+                                break;
+                            case (timezone_str.indexOf("Central") !== -1):
+                                user_info[val] = 5;
+                                break;
+                            case (timezone_str.indexOf("Eastern") !== -1):
+                                user_info[val] = 6;
+                                break;
+                        }
+
+                    }
                     query_string += val + " = ? , ";
                     values.push(user_info[val]);
                 }

@@ -143,7 +143,19 @@ router.get('/users/:id', function(req, res) {
             console.log(err);
         } else {
             if (result) {
-                res.render('layouts/user_profile', result[0]);
+				return async.parallel({
+					channels: function(callback){
+						chat.get_channels(req.params.id, req.session, callback);
+					}
+				},
+				function(err, results) {
+					if(err) {
+						res.sendStatus(err.code);
+						console.log(err);
+					} else {
+						res.render('layouts/user_profile', result[0]);
+					}
+				});
             } else {
             	res.redirect("/login");
             }

@@ -9,7 +9,6 @@
 </head>
 <header class="docs-layout-header mdl-layout__header mdl-color--blue-grey-800">
 	<div class="docs-navigation__container">
-		<nav class="docs-navigation mdl-navigation mdl-color-text--blue-grey-400">
 			<!--<button id="user-page-chat-selection-button" class="mdl-button mdl-js-button mdl-button--icon mdl-color-text--blue-grey-400">
 			  Chats
 			</button>
@@ -18,23 +17,21 @@
 				<a class="mdl-navigation__link mdl-color-text--blue-grey-400" href="{{id}}"><li class="mdl-menu__item">{{name}}</li></a>
 			{{/each}}
 			</ul>-->
-			<div class="demo-avatar-dropdown">
-			<div id="user-page-header-align-div">
+		<div class="demo-avatar-dropdown">
+			<!--<div id="user-page-header-align-div">-->
 			<h3>Chats</h3>
 			<div class="mdl-layout-spacer"></div>
 			<button id="user-page-chat-selection-button1" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
 			  <i class="material-icons" role="presentation">arrow_drop_down</i>
-			  <h3 class="visuallyhidden">Chats</h3>
+			  <span class="visuallyhidden">Chats</span>
 			</button>
 			<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="user-page-chat-selection-button1">
 			  {{#each channels.channels}}
 				<a href="/chats/{{id}}"><li class="mdl-menu__item">{{name}}</li></a>
 			  {{/each}}
 			</ul>
-			</div>
-			</div>
-		  
-		</nav>
+			<!--</div>-->
+		</div>
 	</div>
 </header>
 <div class="container">

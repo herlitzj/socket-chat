@@ -10,8 +10,8 @@
 #user-page-header-align-left {
 	padding-left: 100px;
 }
-#user-page-chat-selection-header{
+.demo-avatar-dropdown #user-page-chat-selection-header{
 	float: right;
 }
-#user-page-chat-selection-button1{
+.demo-avatar-dropdown #user-page-chat-selection-button1{
 	float: left;

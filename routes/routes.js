@@ -33,7 +33,26 @@ router.get('/logout', function(req, res) {
 /*********************/
 
 router.get('/chats/new', function(req, res) {
-    res.render('layouts/channel_create');
+	if (!req.session.user) res.redirect('/login');
+    else {
+        return async.parallel({
+                channels: function(callback) {
+                    chat.get_channels(req.params.id, req.session, callback);
+                },
+				direct_messages: function(callback) {
+					chat.get_direct_messages(req.session.user, callback);
+				}
+            },
+            function(err, results) {
+                if (err) {
+                    res.sendStatus(err.code);
+                    console.log(err);
+                } else {
+					results.last_channel = results.channels.channels.pop();
+                    res.render('layouts/channel_create', results);
+                }
+            });
+    }
 })
 
 router.get('/chats/:id', function(req, res) {
@@ -56,7 +75,7 @@ router.get('/chats/:id', function(req, res) {
                     console.log(err);
                 } else {
                     req.session.chat_id = req.params.id;
-                    res.render('chat', results)
+                    res.render('chat', results);
                 }
             });
     }
@@ -77,11 +96,50 @@ router.post('/chats', function(req, res) {
 })
 
 router.get('/direct_message/new', function(req, res) {
-    res.render('layouts/direct_message_create');
+	if (!req.session.user) res.redirect('/login');
+    else {
+        return async.parallel({
+                channels: function(callback) {
+                    chat.get_channels(req.params.id, req.session, callback);
+                },
+				direct_messages: function(callback) {
+					chat.get_direct_messages(req.session.user, callback);
+				}
+            },
+            function(err, results) {
+                if (err) {
+                    res.sendStatus(err.code);
+                    console.log(err);
+                } else {
+					results.last_channel = results.channels.channels.pop();
+                    res.render('layouts/direct_message_create', results);
+                }
+            });
+    }
 });
 
 router.get('/direct_message/:id/add_users', function(req, res) {
-    res.render('layouts/direct_message_add_users', req.params);
+	if (!req.session.user) res.redirect('/login');
+    else {
+        return async.parallel({
+                channels: function(callback) {
+                    chat.get_channels(req.params.id, req.session, callback);
+                },
+				direct_messages: function(callback) {
+					chat.get_direct_messages(req.session.user, callback);
+				}
+            },
+            function(err, results) {
+                if (err) {
+                    res.sendStatus(err.code);
+                    console.log(err);
+                } else {
+					results.last_channel = results.channels.channels.pop();
+					results.params = req.params;
+                    res.render('layouts/direct_message_add_users', results);
+                }
+            });
+    }
 });
 
 router.get('/direct_message/:id', function(req, res) {
@@ -110,7 +168,7 @@ router.get('/direct_message/:id', function(req, res) {
                         console.log(err);
                     } else {
                         req.session.chat_id = req.params.id;
-                        res.render('chat', results)
+                        res.render('chat', results);
                     }
                 });
         }
@@ -169,19 +227,30 @@ router.post('/direct_message/:id/add_users', function(req, res) {
 /*********************/
 
 router.get('/users/:id', function(req, res) {
-    var callback = (err, result) => {
-        if (err) {
-            res.sendStatus(err.code);
-            console.log(err);
-        } else {
-            if (result) {
-                res.render('layouts/user_profile', result[0]);
-            } else {
-                res.redirect("/login");
-            }
-        }
+    if (!req.session.user) res.redirect('/login');
+    else {
+        return async.parallel({
+                user: function(callback) {
+                    user.get(req.params.id, req.session, callback);
+                },
+                channels: function(callback) {
+                    chat.get_channels(req.params.id, req.session, callback);
+                },
+				direct_messages: function(callback) {
+					chat.get_direct_messages(req.session.user, callback);
+				}
+            },
+            function(err, results) {
+                if (err) {
+                    res.sendStatus(err.code);
+                    console.log(err);
+                } else {
+					results.last_channel = results.channels.channels.pop();
+					results.user = results.user[0];
+                    res.render('layouts/user_profile', results);
+                }
+            });
     }
-    return user.get(req.params.id, req.session, callback);
 });
 
 router.post('/users/login', function(req, res) {

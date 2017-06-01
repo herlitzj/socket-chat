@@ -2,11 +2,6 @@
 	height: 100px;
 	width: 100px;
 }
-#user-page-chat-selection-button {
-	padding-top: 10px;
-	padding-left: 100px;
-	width: 100px;
-}
 #user-page-header-align-left {
 	padding-left: 100px;
 	position: relative;
@@ -16,7 +11,7 @@
 .demo-avatar-dropdown #user-page-chat-selection-header{
 	float: left;
 }
-.demo-avatar-dropdown #user-page-chat-selection-button1{
+.demo-avatar-dropdown #user-page-chat-selection-button{
 	margin:0 auto;
 	position: absolute;
 	bottom: 8px;

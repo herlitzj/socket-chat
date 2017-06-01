@@ -33,17 +33,17 @@
 </header>
 <div class="container">
 	<div class="text-center">
-    	<h2>Create a New Direct Message</h2>
+    	<h2>Add Users</h2>
 	</div>
   	<hr>
-	<div class="row">
+	
       <!-- edit form column -->
-      <div class="col-md-9 personal-info text-center">
-        <form class="form-horizontal" role="form" action="/direct_message" method="post">
+      <div class="col-md-12 personal-info text-center">
+        <form class="form-horizontal" role="form" action="/direct_message/{{params.id}}/add_users" method="post">
           <div class="form-group">
             <label class="col-md-3 control-label">Participants:</label>
             <div style="padding-right: 50px" class="col-md-8">
-              <input class="form-control" type="text" name="participants" placeholder="username_1, username_2..." value="">
+              <input class="form-control" type="text" name="users" placeholder="username_1, username_2..." value="">
             </div>
           </div>
           <div class="form-group">
@@ -51,6 +51,6 @@
           </div>
         </form>
       </div>
-  </div>
+ 
 </div>
 <hr>

@@ -65,7 +65,7 @@
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-            <a href=""><li class="mdl-menu__item">Preferences</li></a>
+            <a href="/users/{{channels.user_session.user}}"><li class="mdl-menu__item">Edit Profile</li></a>
             <a href="/logout"><li class="mdl-menu__item">Sign Out</li></a>
 			<a href=""><li class="mdl-menu__item">About</li></a>
           </ul>
@@ -102,7 +102,6 @@
 			{{#if participants}}<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">group</i>
 			{{else}}<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person</i>
 			{{/if}} {{truncated_name}}</a>
-			<div class="mdl-layout-spacer"></div>
 			<button id="dmbtn{{id}}" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon dm-instance-button">
               <i class="material-icons" role="presentation">arrow_drop_down</i>
               <span class="visuallyhidden">Direct Message Options</span>

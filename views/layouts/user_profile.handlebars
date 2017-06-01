@@ -116,8 +116,6 @@
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">
               <input type="submit" id="save_changes" class="btn btn-primary" value="Save Changes">
-              <span></span>
-              <input type="reset" id="snackbar-submit-btn" class="btn btn-default" value="Cancel">
             </div>
           </div>
         </form>
@@ -132,7 +130,7 @@
   'use strict';
   window['counter'] = 0;
   var snackbarContainer = document.querySelector('#user-change-confirmation-snackbar');
-  var showToastButton = document.querySelector('#snackbar-submit-btn');
+  var showToastButton = document.querySelector('#save_changes');
   showToastButton.addEventListener('click', function() {
     'use strict';
     var data = {message: 'Changes Saved'};

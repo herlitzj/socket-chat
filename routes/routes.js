@@ -187,7 +187,6 @@ router.get('/users/:id', function(req, res) {
                     res.sendStatus(err.code);
                     console.log(err);
                 } else {
-					numChannels = results.channels.channels.length;
 					results.last_channel = results.channels.channels.pop();
 					results.user = results.user[0];
                     res.render('layouts/user_profile', results);

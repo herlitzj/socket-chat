@@ -178,7 +178,7 @@ router.get('/users/:id', function(req, res) {
                 channels: function(callback) {
                     chat.get_channels(req.params.id, req.session, callback);
                 },
-				dms: function(callback) {
+				direct_messages: function(callback) {
 					chat.get_direct_messages(req.params.id, req.session, callback);
 				}
             },

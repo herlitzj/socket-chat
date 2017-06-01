@@ -185,7 +185,7 @@ router.get('/users/:id', function(req, res) {
 						res.sendStatus(err.code);
 						console.log(err);
 					} else {
-						res.render('layouts/user_profile', result[0]);
+						res.render('layouts/user_profile', {user:result[0], channels:results.channels});
 					}
 				});
             } else {

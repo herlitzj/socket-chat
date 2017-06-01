@@ -169,31 +169,28 @@ router.post('/direct_message/:id/add_users', function(req, res) {
 /*********************/
 
 router.get('/users/:id', function(req, res) {
-    var callback = (err, result) => {
-        if (err) {
-            res.sendStatus(err.code);
-            console.log(err);
-        } else {
-            if (result) {
-				return async.parallel({
-					channels: function(callback){
-						chat.get_channels(req.params.id, req.session, callback);
-					}
-				},
-				function(err, results) {
-					if(err) {
-						res.sendStatus(err.code);
-						console.log(err);
-					} else {
-						res.render('layouts/user_profile', {user:result[0], channels:results.channels});
-					}
-				});
-            } else {
-                res.redirect("/login");
-            }
-        }
+    if (!req.session.user) res.redirect('/login');
+    else {
+        return async.parallel({
+                user: function(callback) {
+                    user.get(req.params.id, req.session, callback)[0];
+                },
+                channels: function(callback) {
+                    chat.get_channels(req.params.id, req.session, callback);
+                },
+				dms: function(callback) {
+					chat.get_direct_messages(req.params.id, req.session, callback);
+				}
+            },
+            function(err, results) {
+                if (err) {
+                    res.sendStatus(err.code);
+                    console.log(err);
+                } else {
+                    res.render('layouts/user_profile', results)
+                }
+            });
     }
-    return user.get(req.params.id, req.session, callback);
 });
 
 router.post('/users/login', function(req, res) {

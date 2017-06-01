@@ -20,6 +20,9 @@
 			  {{#each channels.channels}}
 				<a style="text-decoration: none" href="/chats/{{id}}"><li class="mdl-menu__item">{{name}}</li></a>
 			  {{/each}}
+			  {{#each direct_messages}}
+				<a style="text-decoration: none" href="/direct_message/{{id}}"><li class="mdl-menu__item">{{name}}</li></a>
+			  {{/each}}
 			</ul>
 		</div>
 	</div>

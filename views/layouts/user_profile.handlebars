@@ -21,7 +21,7 @@
 				<a style="text-decoration: none" href="/chats/{{id}}"><li class="mdl-menu__item">{{name}}</li></a>
 			  {{/each}}
 			  {{#if last_channel}}
-				<a style="text-decoration: none" href="/chats/{{id}}"><li class="mdl-menu__item mdl-menu__item--full-bleed-divider">{{name}}</li></a>
+				<a style="text-decoration: none" href="/chats/{{last_channel.id}}"><li class="mdl-menu__item mdl-menu__item--full-bleed-divider">{{last_channel.name}}</li></a>
 			  {{/if}}
 			  {{#each direct_messages}}
 				<a style="text-decoration: none" href="/direct_message/{{id}}"><li class="mdl-menu__item">{{name}}</li></a>

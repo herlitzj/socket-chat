@@ -36,9 +36,6 @@ router.get('/chats/new', function(req, res) {
 	if (!req.session.user) res.redirect('/login');
     else {
         return async.parallel({
-                user: function(callback) {
-                    user.get(req.params.id, req.session, callback);
-                },
                 channels: function(callback) {
                     chat.get_channels(req.params.id, req.session, callback);
                 },
@@ -52,7 +49,6 @@ router.get('/chats/new', function(req, res) {
                     console.log(err);
                 } else {
 					results.last_channel = results.channels.channels.pop();
-					results.user = results.user[0];
                     res.render('layouts/channel_create', results);
                 }
             });
@@ -103,9 +99,6 @@ router.get('/direct_message/new', function(req, res) {
 	if (!req.session.user) res.redirect('/login');
     else {
         return async.parallel({
-                user: function(callback) {
-                    user.get(req.params.id, req.session, callback);
-                },
                 channels: function(callback) {
                     chat.get_channels(req.params.id, req.session, callback);
                 },
@@ -119,7 +112,6 @@ router.get('/direct_message/new', function(req, res) {
                     console.log(err);
                 } else {
 					results.last_channel = results.channels.channels.pop();
-					results.user = results.user[0];
                     res.render('layouts/direct_message_create', results);
                 }
             });
@@ -130,9 +122,6 @@ router.get('/direct_message/:id/add_users', function(req, res) {
 	if (!req.session.user) res.redirect('/login');
     else {
         return async.parallel({
-                user: function(callback) {
-                    user.get(req.params.id, req.session, callback);
-                },
                 channels: function(callback) {
                     chat.get_channels(req.params.id, req.session, callback);
                 },
@@ -146,7 +135,6 @@ router.get('/direct_message/:id/add_users', function(req, res) {
                     console.log(err);
                 } else {
 					results.last_channel = results.channels.channels.pop();
-					results.user = results.user[0];
 					results.params = req.params;
                     res.render('layouts/direct_message_add_users', results);
                 }

@@ -56,7 +56,7 @@ router.get('/chats/:id', function(req, res) {
                     console.log(err);
                 } else {
                     req.session.chat_id = req.params.id;
-                    res.render('chat', results)
+                    res.render('chat', results);
                 }
             });
     }
@@ -110,7 +110,7 @@ router.get('/direct_message/:id', function(req, res) {
                         console.log(err);
                     } else {
                         req.session.chat_id = req.params.id;
-                        res.render('chat', results)
+                        res.render('chat', results);
                     }
                 });
         }
@@ -173,7 +173,7 @@ router.get('/users/:id', function(req, res) {
     else {
         return async.parallel({
                 user: function(callback) {
-                    user.get(req.params.id, req.session, callback)[0];
+                    user.get(req.params.id, req.session, callback);
                 },
                 channels: function(callback) {
                     chat.get_channels(req.params.id, req.session, callback);
@@ -187,7 +187,8 @@ router.get('/users/:id', function(req, res) {
                     res.sendStatus(err.code);
                     console.log(err);
                 } else {
-                    res.render('layouts/user_profile', results)
+					results.user = results.user[0];
+                    res.render('layouts/user_profile', results);
                 }
             });
     }

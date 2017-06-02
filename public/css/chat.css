@@ -15,12 +15,16 @@
  */
 
 .demo-avatar-dropdown .dm-instance-link{
-	display: inline;
+	float: left;
 }
 .demo-avatar-dropdown .dm-instance-button{
+	margin:0 auto;
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: 20px;
+	right: 10px;
+}
+.dm-instance-wrapper:hover{
+	
 }
 
 html, body {

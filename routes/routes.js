@@ -75,6 +75,7 @@ router.get('/chats/:id', function(req, res) {
                     console.log(err);
                 } else {
                     req.session.chat_id = req.params.id;
+					results.dm = false;
                     res.render('chat', results);
                 }
             });
@@ -168,6 +169,8 @@ router.get('/direct_message/:id', function(req, res) {
                         console.log(err);
                     } else {
                         req.session.chat_id = req.params.id;
+						results.dm = true;
+						results.dm_id = req.params.id;
                         res.render('chat', results);
                     }
                 });

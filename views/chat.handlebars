@@ -100,15 +100,17 @@
           <p class="mdl-navigation__link" href="">Direct Messages<a href="/direct_message/new"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i></a></p>
 		  {{#each direct_messages}}
             <span id="channel-{{id}}" class="dm-instance-wrapper">
+			
+			<button id="dmbtn{{id}}" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+              <i id="delete-channel" onClick="deleteChannel({{id}})" class="material-icons">close</i>
+              <span class="visuallyhidden">Close Direct Message</span>
+            </button>
+			
 			<a class="mdl-navigation__link dm-instance-link" href="/direct_message/{{id}}" title="{{name}}">
 			{{#if participants}}<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">group</i>
 			{{else}}<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person</i>
 			{{/if}}{{truncated_name}}</a>
 			
-			<button id="dmbtn{{id}}" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon dm-instance-button">
-              <i id="delete-channel" onClick="deleteChannel({{id}})" class="material-icons">close</i>
-              <span class="visuallyhidden">Close Direct Message</span>
-            </button>
             </span>
           {{/each}}
           <div class="mdl-layout-spacer"></div>

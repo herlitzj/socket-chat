@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-.dm-instance-link{
+.dm-instance-wrapper {
+  position: relative;
+}
+.dm-instance-wrapper .dm-instance-link{
 	float: left;
 }
-.dm-instance-button{
+.dm-instance-wrapper .dm-instance-button{
 	margin:0 auto;
 	position: absolute;
-	top: 20px;
-	right: 10px;
+	top: 12px;
+	right: 20px;
 }
 
 html, body {

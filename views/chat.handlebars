@@ -104,7 +104,11 @@
 			{{#if participants}}<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">group</i>
 			{{else}}<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person</i>
 			{{/if}}{{truncated_name}}</a>
-			<i id="delete-channel" onClick="deleteChannel({{id}})" class="material-icons dm-instance-button">close</i>
+			
+			<button id="dmbtn{{id}}" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon dm-instance-button">
+              <i id="delete-channel" onClick="deleteChannel({{id}})" class="material-icons">close</i>
+              <span class="visuallyhidden">Close Direct Message</span>
+            </button>
             </span>
           {{/each}}
           <div class="mdl-layout-spacer"></div>

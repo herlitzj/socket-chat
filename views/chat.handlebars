@@ -65,9 +65,11 @@
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-            <a href=""><li class="mdl-menu__item">Preferences</li></a>
+			{{#if dm}}
+			<a href="/direct_message/{{dm_id}}/add_users"><li class="mdl-menu__item">Add Users</li></a>
+			{{/if}}
             <a href="/logout"><li class="mdl-menu__item">Sign Out</li></a>
-			<a href=""><li class="mdl-menu__item">About</li></a>
+			<a href="/about"><li class="mdl-menu__item">About</li></a>
           </ul>
         </div>
       </header>
@@ -96,13 +98,22 @@
 		      <br />
           <p class="mdl-navigation__link" href="">Direct Messages<a href="/direct_message/new"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i></a></p>
 		  {{#each direct_messages}}
-            <span id="channel-{{id}}"><a class="mdl-navigation__link" href="/direct_message/{{id}}" title="{{name}}">{{#if participants}}<span class="badge">{{participants}}</span>{{else}}<span class="badge">-</span>{{/if}} {{truncated_name}}</a>
-              <span style="cursor:pointer;" id="delete-channel" onClick="deleteChannel({{id}})">Leave</span>
-              <a href="/direct_message/{{id}}/add_users">Add Users</a>
+            <span id="channel-{{id}}" class="dm-instance-wrapper">
+			
+			<a class="mdl-navigation__link dm-instance-link" href="/direct_message/{{id}}" title="{{name}}">
+			{{#if participants}}<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">group</i>
+			{{else}}<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person</i>
+			{{/if}}{{truncated_name}}</a>
+			
+			<button id="delete-channel" onClick="deleteChannel({{id}})" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon dm-instance-button">
+              <i class="material-icons">close</i>
+              <span class="visuallyhidden">Close Direct Message</span>
+            </button>
+			
             </span>
           {{/each}}
           <div class="mdl-layout-spacer"></div>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+          <a class="mdl-navigation__link" href="https://www.youtube.com/watch?v=1PWk3i9WT-8"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
         </nav>
       </div>
 	  <main id="scroll" class="mdl-layout__content">
@@ -149,6 +160,4 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/public/js/client.js"></script>
   <script src="/public/js/chat.js"></script>
-
-
 </body>

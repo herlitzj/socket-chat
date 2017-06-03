@@ -28,6 +28,29 @@ router.get('/logout', function(req, res) {
     res.redirect("/users/login");
 })
 
+router.get('/about', function(req, res) {
+	if (!req.session.user) res.redirect('/login');
+    else {
+        return async.parallel({
+                channels: function(callback) {
+                    chat.get_channels(req.params.id, req.session, callback);
+                },
+				direct_messages: function(callback) {
+					chat.get_direct_messages(req.session.user, callback);
+				}
+            },
+            function(err, results) {
+                if (err) {
+                    res.sendStatus(err.code);
+                    console.log(err);
+                } else {
+					results.last_channel = results.channels.channels.pop();
+                    res.render('layouts/about', results);
+                }
+            });
+    }
+})
+
 /*********************
 // Chat and Direct Message Routes
 /*********************/
@@ -75,6 +98,7 @@ router.get('/chats/:id', function(req, res) {
                     console.log(err);
                 } else {
                     req.session.chat_id = req.params.id;
+					results.dm = false;
                     res.render('chat', results);
                 }
             });
@@ -168,6 +192,8 @@ router.get('/direct_message/:id', function(req, res) {
                         console.log(err);
                     } else {
                         req.session.chat_id = req.params.id;
+						results.dm = true;
+						results.dm_id = req.params.id;
                         res.render('chat', results);
                     }
                 });

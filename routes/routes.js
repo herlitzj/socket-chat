@@ -45,7 +45,7 @@ router.get('/about', function(req, res) {
                     console.log(err);
                 } else {
 					results.last_channel = results.channels.channels.pop();
-                    res.render('/layouts/about', results);
+                    res.render('layouts/about', results);
                 }
             });
     }

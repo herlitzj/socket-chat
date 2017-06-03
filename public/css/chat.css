@@ -18,7 +18,7 @@
   position: relative;
 }
 .dm-instance-wrapper .dm-instance-link{
-	float: left;
+	float: center;
 }
 .dm-instance-wrapper .dm-instance-button{
 	margin:0 auto;

@@ -80,13 +80,15 @@
 }
 
 .demo-footer, .demo-ribbon:after {
-  margin:0 auto;
-  position: aboslute;
-  height: 80px;
+  height: 10px;
   width: 100%;
-  bottom: 0;
 }
 
 .demo-footer .mdl-mini-footer--link-list a {
   font-size: 13px;
+}
+
+.about-page-wrapper .demo-footer {
+	position: absolute;
+	bottom: 0;
 }

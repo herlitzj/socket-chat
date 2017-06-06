@@ -46,6 +46,7 @@ class User {
     }
 
     create(user_info, user_session, callback) {
+        console.log(user_info)
         var create_user = function(hash_error, hashed_pw) {
             if (hash_error) {
                 var err = new Error(hash_error);
@@ -69,20 +70,15 @@ class User {
                         user_session.avatar = avatar;
                         return callback(null, results);
                     }
-                })
+                });
             }
         }
-
         return session.hash_password(user_info.password, create_user);
     }
 
-    // update(user_info, callback) {
-
-    // }
-
     update(user_info, callback) {
 
-        var iterate_values = function(user_info) {
+        var iterate_values = function(user_info, hash_error, hashed_pw) {
             var values = [];
             var query_obj = {};
             var query_string = "UPDATE users SET ";
@@ -115,10 +111,21 @@ class User {
                                 user_info[val] = 6;
                                 break;
                         }
-
                     }
+
                     query_string += val + " = ? , ";
                     values.push(user_info[val]);
+                }
+            }
+
+            if (hashed_pw) {
+                if (hash_error) {
+                    var err = new Error(hash_error);
+                    err.code = http_codes.INTERNAL_SERVER_ERROR;
+                    return callback(err);
+                } else {
+                    query_string += "hashed_pw = ? , ";
+                    values.push(hashed_pw);
                 }
             }
 
@@ -139,32 +146,39 @@ class User {
             });
         };
 
-        User.resize_image(user_info, iterate_values);
+        User.update_password(user_info, iterate_values);
     }
 
-    static resize_image(user_info, callback) {
-        if (user_info["avatar"]) {
-            var img = user_info["avatar"];
-            var lambda_params = {
-                FunctionName: 'imagemagick',
-                Payload: JSON.stringify({
-                    "operation": 'resize',
-                    "base64Image": img.split(',')[1]
-                })
-            };
-            var img_header = img.split(',')[0];
+    static update_password(user_info, callback) {
+        var resize_image = function(hash_error, hashed_pw) {
+            if (user_info["avatar"]) {
+                var img = user_info["avatar"];
+                var lambda_params = {
+                    FunctionName: 'imagemagick',
+                    Payload: JSON.stringify({
+                        "operation": 'resize',
+                        "base64Image": img.split(',')[1]
+                    })
+                };
+                var img_header = img.split(',')[0];
 
-            lambda.invoke(lambda_params, function(err, data) {
-                if (err) {
-                    console.log(err, err.stack);
-                } else {
-                    var img_str = img_header + "," + JSON.parse(data.Payload);
-                    user_info["avatar"] = img_str;
-                    callback(user_info);
-                }
-            });
+                lambda.invoke(lambda_params, function(err, data) {
+                    if (err) {
+                        console.log(err, err.stack);
+                    } else {
+                        var img_str = img_header + "," + JSON.parse(data.Payload);
+                        user_info["avatar"] = img_str;
+                        callback(user_info, hash_error, hashed_pw);
+                    }
+                });
+            } else {
+                callback(user_info, hash_error, hashed_pw);
+            }
+        };
+        if (user_info.password) {
+            session.hash_password(user_info.password, resize_image);
         } else {
-            callback(user_info);
+            resize_image(null, null);
         }
     }
 }

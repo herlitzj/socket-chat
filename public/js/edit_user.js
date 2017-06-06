@@ -11,6 +11,17 @@ $(function() {
             },
             avatar: {
                 maxlength: 1048576
+            },
+            password: {
+                minlength: 6
+            },
+            confirmpassword: {
+                //required: true,
+                minlength: 6,
+                equalTo: "#first-password"
+            },
+            email: {
+                email: true
             }
         }
     });

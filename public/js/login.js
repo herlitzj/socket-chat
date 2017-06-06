@@ -28,7 +28,8 @@ $(function() {
             $("#register-form").validate({
                 rules: {
                     password: {
-                        required: true
+                        required: true,
+                        minlength: 6
                     },
                     confirmpassword: {
                         required: true,
